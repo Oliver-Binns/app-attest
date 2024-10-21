@@ -1,0 +1,48 @@
+name: Pull Request
+
+on:
+  pull_request:
+    types: [ opened, reopened, synchronize, ready_for_review ]
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Validate Pull Request
+    if: github.event.pull_request.draft == false
+    runs-on: macos-15
+
+    steps:
+      - name: Add Path Globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Validate Pull Request Name
+        id: versioning
+        uses: Oliver-Binns/Versioning@main
+        with:
+          ACTION_TYPE: 'Validate'
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Lint
+        run: |
+          swiftlint --strict
+          
+      - name: Run Automated Tests
+        run: |
+          set -o pipefail && xcodebuild clean test \
+            -scheme AppAttestDemo \
+            -workspace AppAttest.xcworkspace \
+            -destination 'platform=OS X,arch=x86_64' \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO \
+            -verbose | xcbeautify
+
+
