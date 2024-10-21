@@ -33,6 +33,7 @@ jobs:
 
       - name: Lint
         run: |
+          brew install swiftlint
           swiftlint --strict
           
       - name: Run Automated Tests
