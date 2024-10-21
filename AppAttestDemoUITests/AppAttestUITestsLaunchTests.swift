@@ -1,13 +1,6 @@
-//
-//  App_AttestUITestsLaunchTests.swift
-//  App AttestUITests
-//
-//  Created by Oliver Binns on 21/10/2024.
-//
-
 import XCTest
 
-final class App_AttestUITestsLaunchTests: XCTestCase {
+final class AppAttestDemoUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

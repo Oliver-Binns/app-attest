@@ -1,14 +1,10 @@
-//
-//  App_AttestApp.swift
-//  App Attest
-//
-//  Created by Oliver Binns on 21/10/2024.
-//
-
+import AppAttest
 import SwiftUI
 
 @main
-struct App_AttestApp: App {
+struct AppAttestDemoApp: App {
+    let service: AppAttestProvider = AppAttestService()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
