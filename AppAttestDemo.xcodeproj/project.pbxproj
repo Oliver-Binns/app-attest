@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A75E23102CC6F59800B03953 /* AppAttest in Frameworks */ = {isa = PBXBuildFile; productRef = A75E230F2CC6F59800B03953 /* AppAttest */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		A779B9542CC6EDFE008128F4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,25 +28,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A779B9422CC6EDFC008128F4 /* App Attest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App Attest.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A779B9532CC6EDFE008128F4 /* App AttestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "App AttestTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A779B95D2CC6EDFE008128F4 /* App AttestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "App AttestUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A779B9422CC6EDFC008128F4 /* AppAttestDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppAttestDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A779B9532CC6EDFE008128F4 /* AppAttestDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppAttestDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A779B95D2CC6EDFE008128F4 /* AppAttestDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppAttestDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		A779B9442CC6EDFC008128F4 /* App Attest */ = {
+		A779B9442CC6EDFC008128F4 /* AppAttestDemo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "App Attest";
+			path = AppAttestDemo;
 			sourceTree = "<group>";
 		};
-		A779B9562CC6EDFE008128F4 /* App AttestTests */ = {
+		A779B9562CC6EDFE008128F4 /* AppAttestDemoTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "App AttestTests";
+			path = AppAttestDemoTests;
 			sourceTree = "<group>";
 		};
-		A779B9602CC6EDFE008128F4 /* App AttestUITests */ = {
+		A779B9602CC6EDFE008128F4 /* AppAttestDemoUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "App AttestUITests";
+			path = AppAttestDemoUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A75E23102CC6F59800B03953 /* AppAttest in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +77,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A75E230E2CC6F59800B03953 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A779B9392CC6EDFC008128F4 = {
 			isa = PBXGroup;
 			children = (
-				A779B9442CC6EDFC008128F4 /* App Attest */,
-				A779B9562CC6EDFE008128F4 /* App AttestTests */,
-				A779B9602CC6EDFE008128F4 /* App AttestUITests */,
+				A779B9442CC6EDFC008128F4 /* AppAttestDemo */,
+				A779B9562CC6EDFE008128F4 /* AppAttestDemoTests */,
+				A779B9602CC6EDFE008128F4 /* AppAttestDemoUITests */,
+				A75E230E2CC6F59800B03953 /* Frameworks */,
 				A779B9432CC6EDFC008128F4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,9 +98,9 @@
 		A779B9432CC6EDFC008128F4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A779B9422CC6EDFC008128F4 /* App Attest.app */,
-				A779B9532CC6EDFE008128F4 /* App AttestTests.xctest */,
-				A779B95D2CC6EDFE008128F4 /* App AttestUITests.xctest */,
+				A779B9422CC6EDFC008128F4 /* AppAttestDemo.app */,
+				A779B9532CC6EDFE008128F4 /* AppAttestDemoTests.xctest */,
+				A779B95D2CC6EDFE008128F4 /* AppAttestDemoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,9 +108,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A779B9412CC6EDFC008128F4 /* App Attest */ = {
+		A779B9412CC6EDFC008128F4 /* AppAttestDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A779B9672CC6EDFE008128F4 /* Build configuration list for PBXNativeTarget "App Attest" */;
+			buildConfigurationList = A779B9672CC6EDFE008128F4 /* Build configuration list for PBXNativeTarget "AppAttestDemo" */;
 			buildPhases = (
 				A779B93E2CC6EDFC008128F4 /* Sources */,
 				A779B93F2CC6EDFC008128F4 /* Frameworks */,
@@ -108,18 +121,19 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				A779B9442CC6EDFC008128F4 /* App Attest */,
+				A779B9442CC6EDFC008128F4 /* AppAttestDemo */,
 			);
-			name = "App Attest";
+			name = AppAttestDemo;
 			packageProductDependencies = (
+				A75E230F2CC6F59800B03953 /* AppAttest */,
 			);
 			productName = "App Attest";
-			productReference = A779B9422CC6EDFC008128F4 /* App Attest.app */;
+			productReference = A779B9422CC6EDFC008128F4 /* AppAttestDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A779B9522CC6EDFE008128F4 /* App AttestTests */ = {
+		A779B9522CC6EDFE008128F4 /* AppAttestDemoTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A779B96A2CC6EDFE008128F4 /* Build configuration list for PBXNativeTarget "App AttestTests" */;
+			buildConfigurationList = A779B96A2CC6EDFE008128F4 /* Build configuration list for PBXNativeTarget "AppAttestDemoTests" */;
 			buildPhases = (
 				A779B94F2CC6EDFE008128F4 /* Sources */,
 				A779B9502CC6EDFE008128F4 /* Frameworks */,
@@ -131,18 +145,18 @@
 				A779B9552CC6EDFE008128F4 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				A779B9562CC6EDFE008128F4 /* App AttestTests */,
+				A779B9562CC6EDFE008128F4 /* AppAttestDemoTests */,
 			);
-			name = "App AttestTests";
+			name = AppAttestDemoTests;
 			packageProductDependencies = (
 			);
 			productName = "App AttestTests";
-			productReference = A779B9532CC6EDFE008128F4 /* App AttestTests.xctest */;
+			productReference = A779B9532CC6EDFE008128F4 /* AppAttestDemoTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		A779B95C2CC6EDFE008128F4 /* App AttestUITests */ = {
+		A779B95C2CC6EDFE008128F4 /* AppAttestDemoUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A779B96D2CC6EDFE008128F4 /* Build configuration list for PBXNativeTarget "App AttestUITests" */;
+			buildConfigurationList = A779B96D2CC6EDFE008128F4 /* Build configuration list for PBXNativeTarget "AppAttestDemoUITests" */;
 			buildPhases = (
 				A779B9592CC6EDFE008128F4 /* Sources */,
 				A779B95A2CC6EDFE008128F4 /* Frameworks */,
@@ -154,13 +168,13 @@
 				A779B95F2CC6EDFE008128F4 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				A779B9602CC6EDFE008128F4 /* App AttestUITests */,
+				A779B9602CC6EDFE008128F4 /* AppAttestDemoUITests */,
 			);
-			name = "App AttestUITests";
+			name = AppAttestDemoUITests;
 			packageProductDependencies = (
 			);
 			productName = "App AttestUITests";
-			productReference = A779B95D2CC6EDFE008128F4 /* App AttestUITests.xctest */;
+			productReference = A779B95D2CC6EDFE008128F4 /* AppAttestDemoUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -186,7 +200,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A779B93D2CC6EDFC008128F4 /* Build configuration list for PBXProject "App Attest" */;
+			buildConfigurationList = A779B93D2CC6EDFC008128F4 /* Build configuration list for PBXProject "AppAttestDemo" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -195,14 +209,16 @@
 			);
 			mainGroup = A779B9392CC6EDFC008128F4;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A779B9432CC6EDFC008128F4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A779B9412CC6EDFC008128F4 /* App Attest */,
-				A779B9522CC6EDFE008128F4 /* App AttestTests */,
-				A779B95C2CC6EDFE008128F4 /* App AttestUITests */,
+				A779B9412CC6EDFC008128F4 /* AppAttestDemo */,
+				A779B9522CC6EDFE008128F4 /* AppAttestDemoTests */,
+				A779B95C2CC6EDFE008128F4 /* AppAttestDemoUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -258,12 +274,12 @@
 /* Begin PBXTargetDependency section */
 		A779B9552CC6EDFE008128F4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A779B9412CC6EDFC008128F4 /* App Attest */;
+			target = A779B9412CC6EDFC008128F4 /* AppAttestDemo */;
 			targetProxy = A779B9542CC6EDFE008128F4 /* PBXContainerItemProxy */;
 		};
 		A779B95F2CC6EDFE008128F4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A779B9412CC6EDFC008128F4 /* App Attest */;
+			target = A779B9412CC6EDFC008128F4 /* AppAttestDemo */;
 			targetProxy = A779B95E2CC6EDFE008128F4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -388,10 +404,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "App Attest/App_Attest.entitlements";
+				CODE_SIGN_ENTITLEMENTS = AppAttestDemo/AppAttest.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"App Attest/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"AppAttestDemo/Preview Content\"";
 				DEVELOPMENT_TEAM = Z86DH46P79;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -428,10 +444,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "App Attest/App_Attest.entitlements";
+				CODE_SIGN_ENTITLEMENTS = AppAttestDemo/AppAttest.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"App Attest/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"AppAttestDemo/Preview Content\"";
 				DEVELOPMENT_TEAM = Z86DH46P79;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -477,11 +493,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.co.oliverbinns.app-attestTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/App Attest.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/App Attest";
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AppAttestDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AppAttestDemo";
 				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
@@ -500,11 +517,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.co.oliverbinns.app-attestTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/App Attest.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/App Attest";
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AppAttestDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AppAttestDemo";
 				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
@@ -522,10 +540,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.co.oliverbinns.app-attestUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = "App Attest";
 				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -544,10 +563,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.co.oliverbinns.app-attestUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = "App Attest";
 				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -556,7 +576,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A779B93D2CC6EDFC008128F4 /* Build configuration list for PBXProject "App Attest" */ = {
+		A779B93D2CC6EDFC008128F4 /* Build configuration list for PBXProject "AppAttestDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A779B9652CC6EDFE008128F4 /* Debug */,
@@ -565,7 +585,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A779B9672CC6EDFE008128F4 /* Build configuration list for PBXNativeTarget "App Attest" */ = {
+		A779B9672CC6EDFE008128F4 /* Build configuration list for PBXNativeTarget "AppAttestDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A779B9682CC6EDFE008128F4 /* Debug */,
@@ -574,7 +594,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A779B96A2CC6EDFE008128F4 /* Build configuration list for PBXNativeTarget "App AttestTests" */ = {
+		A779B96A2CC6EDFE008128F4 /* Build configuration list for PBXNativeTarget "AppAttestDemoTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A779B96B2CC6EDFE008128F4 /* Debug */,
@@ -583,7 +603,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A779B96D2CC6EDFE008128F4 /* Build configuration list for PBXNativeTarget "App AttestUITests" */ = {
+		A779B96D2CC6EDFE008128F4 /* Build configuration list for PBXNativeTarget "AppAttestDemoUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A779B96E2CC6EDFE008128F4 /* Debug */,
@@ -593,6 +613,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A75E230F2CC6F59800B03953 /* AppAttest */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppAttest;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A779B93A2CC6EDFC008128F4 /* Project object */;
 }
