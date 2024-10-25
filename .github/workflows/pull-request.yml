@@ -45,6 +45,4 @@ jobs:
             -destination 'platform=OS X,arch=x86_64' \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO \
-            -verbose | xcbeautify
-
-
+            -verbose
