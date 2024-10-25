@@ -8,7 +8,7 @@ final class MockChallengeProvider: ChallengeProvider {
     var challenge: Data {
         get throws {
             didRequestChallenge = true
-            return try #require("abc123".data(using: .utf8))
+            return Data("abc123".utf8)
         }
     }
 }
