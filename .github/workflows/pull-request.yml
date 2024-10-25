@@ -38,11 +38,10 @@ jobs:
           
       - name: Run Automated Tests
         run: |
-          set -o pipefail && xcodebuild clean test \
+          xcodebuild clean test \
             -scheme AppAttestDemo \
             -workspace AppAttest.xcworkspace \
             -testPlan AppAttest \
             -destination 'platform=OS X,arch=x86_64' \
             CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO \
-            -verbose
+            CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
