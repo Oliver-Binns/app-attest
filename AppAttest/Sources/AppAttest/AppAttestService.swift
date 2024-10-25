@@ -6,15 +6,21 @@ enum AppAttestServiceError: Error {
 
 public final class AppAttestService: AppAttestProvider {
     let attestationProvider: AttestationProvider
+    let challengeProvider: ChallengeProvider
 
     init(
-        attestationProvider: AttestationProvider
+        attestationProvider: AttestationProvider,
+        challengeProvider: ChallengeProvider
     ) {
         self.attestationProvider = attestationProvider
+        self.challengeProvider = challengeProvider
     }
 
-    public convenience init() {
-        self.init(attestationProvider: DCAppAttestService.shared)
+    public convenience init(challengeProvider: ChallengeProvider) {
+        self.init(
+            attestationProvider: DCAppAttestService.shared,
+            challengeProvider: challengeProvider
+        )
     }
 
     public func fetchAttestation() async throws {
@@ -22,5 +28,6 @@ public final class AppAttestService: AppAttestProvider {
             throw AppAttestServiceError.unsupportedDevice
         }
         _ = try await attestationProvider.generateKey()
+        _ = try await challengeProvider.challenge
     }
 }
