@@ -1,4 +1,5 @@
 @testable import AppAttest
+import DeviceCheck
 import Testing
 
 struct AppAttestServiceTests {
@@ -25,8 +26,17 @@ struct AppAttestServiceTests {
     func supportedDeviceGeneratesKey() async throws {
         attestationProvider.isSupported = true
 
-        try await  sut.fetchAttestation()
+        try await sut.fetchAttestation()
         #expect(attestationProvider.didGenerateKey)
     }
 
+    @Test("Fetch attestation throws error from generate key")
+    func generatesKeyThrowsError() async throws {
+        let error = DCError(.featureUnsupported)
+        attestationProvider.generateKeyError = error
+
+        await #expect(throws: error) {
+            try await sut.fetchAttestation()
+        }
+    }
 }

@@ -6,9 +6,15 @@ final class MockAttestationProvider: AttestationProvider {
     private(set) var didGenerateKey: Bool = false
 
     var isSupported: Bool = true
+    var generateKeyError: Error?
 
     func generateKey() async throws -> String {
         didGenerateKey = true
+
+        if let generateKeyError {
+            throw generateKeyError
+        }
+
         return key
     }
 }
