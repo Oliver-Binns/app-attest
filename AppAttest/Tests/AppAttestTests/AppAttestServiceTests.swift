@@ -3,13 +3,14 @@ import DeviceCheck
 import Testing
 
 struct AppAttestServiceTests {
-    let attestationProvider: MockAttestationProvider
+    let attestationProvider = MockAttestationProvider()
+    let challengeProvider = MockChallengeProvider()
     let sut: AppAttestService
 
     init() {
-        attestationProvider = MockAttestationProvider()
         sut = AppAttestService(
-            attestationProvider: attestationProvider
+            attestationProvider: attestationProvider,
+            challengeProvider: challengeProvider
         )
     }
 
@@ -38,5 +39,12 @@ struct AppAttestServiceTests {
         await #expect(throws: error) {
             try await sut.fetchAttestation()
         }
+    }
+
+    @Test("Fetch attestation requests challenge")
+    func fetchAttestationRequestsChallenge() async throws {
+        try await sut.fetchAttestation()
+
+        #expect(challengeProvider.didRequestChallenge)
     }
 }

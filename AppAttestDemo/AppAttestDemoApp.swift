@@ -3,7 +3,9 @@ import SwiftUI
 
 @main
 struct AppAttestDemoApp: App {
-    let appAttestProvider: AppAttestProvider = AppAttestService()
+    let appAttestProvider: AppAttestProvider = AppAttestService(
+        challengeProvider: LocalChallengeProvider()
+    )
 
     var body: some Scene {
         WindowGroup {
