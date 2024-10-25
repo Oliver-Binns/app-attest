@@ -17,9 +17,10 @@ public final class AppAttestService: AppAttestProvider {
         self.init(attestationProvider: DCAppAttestService.shared)
     }
 
-    func fetchAttestation() throws {
+    public func fetchAttestation() async throws {
         guard attestationProvider.isSupported else {
             throw AppAttestServiceError.unsupportedDevice
         }
+        _ = try await attestationProvider.generateKey()
     }
 }
