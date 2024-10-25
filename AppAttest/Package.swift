@@ -4,7 +4,12 @@ import PackageDescription
 let package = Package(
     name: "AppAttest",
     platforms: [
-        .iOS(.v18)
+        .iOS(.v14),
+        .macCatalyst(.v14),
+        .macOS(.v11),
+        .tvOS(.v15),
+        .visionOS(.v1),
+        .watchOS(.v9)
     ],
     products: [
         .library(name: "AppAttest", targets: ["AppAttest"])

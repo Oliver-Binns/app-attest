@@ -2,10 +2,22 @@
 import Testing
 
 struct AppAttestServiceTests {
-    let sut = AppAttestService()
+    let attestationProvider: MockAttestationProvider
+    let sut: AppAttestService
 
-    @Test
-    func example() {
-        #expect(true)
+    init() {
+        attestationProvider = MockAttestationProvider()
+        sut = AppAttestService(
+            attestationProvider: attestationProvider
+        )
+    }
+
+    @Test("Throws error if device is unsupported")
+    func unsupportedDevice() {
+        attestationProvider.isSupported = false
+
+        #expect(throws: AppAttestServiceError.unsupportedDevice) {
+            try sut.fetchAttestation()
+        }
     }
 }
