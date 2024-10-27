@@ -27,7 +27,7 @@ struct AppAttestServiceTests {
     func supportedDeviceGeneratesKey() async throws {
         attestationProvider.isSupported = true
 
-        try await sut.fetchAttestation()
+        _ = try await sut.fetchAttestation()
         #expect(attestationProvider.didGenerateKey)
     }
 
@@ -43,8 +43,21 @@ struct AppAttestServiceTests {
 
     @Test("Fetch attestation requests challenge")
     func fetchAttestationRequestsChallenge() async throws {
-        try await sut.fetchAttestation()
+        _ = try await sut.fetchAttestation()
 
         #expect(challengeProvider.didRequestChallenge)
+    }
+
+    @Test("Key is attested with specified challenge and key")
+    func fetchAttestationAttestsKey() async throws {
+        let attestationObject = try await sut.fetchAttestation()
+
+        #expect(attestationProvider.didAttestKey)
+
+        let expectedChallenge = try challengeProvider.challenge
+        #expect(attestationProvider.challengeUsedForAttest ==
+                expectedChallenge)
+
+        #expect(attestationObject == Data("attestation_object".utf8))
     }
 }
