@@ -1,0 +1,9 @@
+#!/bin/sh
+
+check=$(head -1 $1 | egrep '^(docs|fix|feat|chore|style|refactor|perf|test)(?:\((.*)\))?(!?)\: (.*)$')
+if [ "" = "$check" ]; then
+        echo "Commit message invalid." 1>&2
+        echo "Expected message to use Conventional Commits: https://www.conventionalcommits.org/en/v1.0.0/" 1>&2
+        open https://www.conventionalcommits.org/en/v1.0.0/
+        exit 1
+fi
