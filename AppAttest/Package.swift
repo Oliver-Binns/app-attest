@@ -15,12 +15,23 @@ let package = Package(
         .library(name: "AppAttest", targets: ["AppAttest"])
     ],
     dependencies: [
+        .package(url: "https://github.com/SomeRandomiOSDev/CBORCoding", exact: "1.4.0")
     ],
     targets: [
         .target(name: "AppAttest"),
         .testTarget(
             name: "AppAttestTests",
             dependencies: ["AppAttest"]
+        ),
+
+        .target(
+            name: "AttestationDecoder",
+            dependencies: [.product(name: "CBORCoding", package: "CBORCoding")]
+        ),
+        .testTarget(
+            name: "AttestationDecoderTests",
+            dependencies: ["AttestationDecoder"],
+            resources: [.process("Resources")]
         )
     ]
 )

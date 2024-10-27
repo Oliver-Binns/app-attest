@@ -12,8 +12,7 @@ struct AppAttestDemoApp: App {
             ContentView()
                 .task {
                     do {
-                        try await appAttestProvider
-                            .fetchAttestation()
+                        _ = try await appAttestProvider.fetchAttestation()
                     } catch {
                         print("error: \(error.localizedDescription)")
                     }

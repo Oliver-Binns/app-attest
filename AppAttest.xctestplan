@@ -21,9 +21,23 @@
     },
     {
       "target" : {
+        "containerPath" : "container:AppAttest",
+        "identifier" : "AttestationDecoderTests",
+        "name" : "AttestationDecoderTests"
+      }
+    },
+    {
+      "target" : {
         "containerPath" : "container:AppAttestDemo.xcodeproj",
         "identifier" : "A779B9522CC6EDFE008128F4",
         "name" : "AppAttestDemoTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:AppAttestDemo.xcodeproj",
+        "identifier" : "A779B95C2CC6EDFE008128F4",
+        "name" : "AppAttestDemoUITests"
       }
     }
   ],

@@ -23,11 +23,16 @@ public final class AppAttestService: AppAttestProvider {
         )
     }
 
-    public func fetchAttestation() async throws {
+    public func fetchAttestation() async throws -> Data {
         guard attestationProvider.isSupported else {
             throw AppAttestServiceError.unsupportedDevice
         }
-        _ = try await attestationProvider.generateKey()
-        _ = try await challengeProvider.challenge
+        let keyID = try await attestationProvider.generateKey()
+        let challenge = try await challengeProvider.challenge
+
+        return try await attestationProvider.attestKey(
+            keyID,
+            clientDataHash: challenge
+        )
     }
 }
