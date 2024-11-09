@@ -1,3 +1,4 @@
+import CryptoKit
 import DeviceCheck
 
 enum AppAttestServiceError: Error {
@@ -29,10 +30,11 @@ public final class AppAttestService: AppAttestProvider {
         }
         let keyID = try await attestationProvider.generateKey()
         let challenge = try await challengeProvider.challenge
+        let clientDataHash = Data(SHA256.hash(data: challenge))
 
         return try await attestationProvider.attestKey(
             keyID,
-            clientDataHash: challenge
+            clientDataHash: clientDataHash
         )
     }
 }
