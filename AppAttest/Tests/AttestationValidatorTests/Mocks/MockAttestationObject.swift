@@ -10,10 +10,22 @@ struct MockAttestationObject: AttestationObject {
 extension AttestationObject
 where Self == MockAttestationObject {
     static var valid: AttestationObject {
-        MockAttestationObject(
-            format: "",
-            authenticatorData: Data(),
-            statement: .valid
-        )
+        get throws {
+            try MockAttestationObject(
+                format: "apple-appattest",
+                authenticatorData: Data(),
+                statement: .valid
+            )
+        }
+    }
+
+    static var expired: AttestationObject {
+        get throws {
+            try MockAttestationObject(
+                format: "apple-appattest",
+                authenticatorData: Data(),
+                statement: .expired
+            )
+        }
     }
 }
