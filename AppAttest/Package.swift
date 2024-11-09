@@ -47,7 +47,8 @@ let package = Package(
             name: "AttestationValidator",
             dependencies: [
                 .product(name: "X509", package: "swift-certificates")
-            ]
+            ],
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "AttestationValidatorTests",
