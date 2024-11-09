@@ -15,8 +15,15 @@
     {
       "target" : {
         "containerPath" : "container:AppAttest",
-        "identifier" : "AppAttestTests",
-        "name" : "AppAttestTests"
+        "identifier" : "AttestationValidatorTests",
+        "name" : "AttestationValidatorTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:AppAttestDemo.xcodeproj",
+        "identifier" : "A779B9522CC6EDFE008128F4",
+        "name" : "AppAttestDemoTests"
       }
     },
     {
@@ -28,9 +35,9 @@
     },
     {
       "target" : {
-        "containerPath" : "container:AppAttestDemo.xcodeproj",
-        "identifier" : "A779B9522CC6EDFE008128F4",
-        "name" : "AppAttestDemoTests"
+        "containerPath" : "container:AppAttest",
+        "identifier" : "AppAttestTests",
+        "name" : "AppAttestTests"
       }
     }
   ],

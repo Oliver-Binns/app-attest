@@ -29,14 +29,4 @@ public struct AttestationStatement: Decodable {
         case certificateChain = "x5c"
         case receipt
     }
-
-    /// Validate this AttestationStatement using the steps given in the Device Check documentation:
-    /// https://developer.apple.com/documentation/devicecheck/attestation-object-validation-guide#Walking-through-the-validation-steps
-    private func validate() {
-        // 1. Verify that the x5c array contains the intermediate and leaf certificates for App Attest
-        // a) Intermediate certificate
-
-        // b) Leaf certificate
-
-    }
 }
