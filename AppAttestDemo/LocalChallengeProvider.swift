@@ -10,10 +10,6 @@ import Foundation
 /// https://developer.apple.com/documentation/devicecheck/dcappattestservice/attestkey(_:clientdatahash:completionhandler:)
 struct LocalChallengeProvider: ChallengeProvider {
     var challenge: Data {
-        let uuid = UUID()
-        let data = withUnsafePointer(to: uuid) {
-            Data(bytes: $0, count: MemoryLayout.size(ofValue: uuid))
-        }
-        return Data(SHA256.hash(data: data))
+        Data(AES.GCM.Nonce())
     }
 }

@@ -12,7 +12,8 @@ struct AppAttestDemoApp: App {
             ContentView()
                 .task {
                     do {
-                        _ = try await appAttestProvider.fetchAttestation()
+                        let attestation = try await appAttestProvider.fetchAttestation()
+                        print("attestation: \(attestation.base64EncodedString())")
                     } catch {
                         print("error: \(error.localizedDescription)")
                     }

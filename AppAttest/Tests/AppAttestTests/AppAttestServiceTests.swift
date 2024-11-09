@@ -1,4 +1,5 @@
 @testable import AppAttest
+import CryptoKit
 import DeviceCheck
 import Testing
 
@@ -48,13 +49,15 @@ struct AppAttestServiceTests {
         #expect(challengeProvider.didRequestChallenge)
     }
 
-    @Test("Key is attested with specified challenge and key")
+    @Test("Key is attested with specified challenge (hashed) and key")
     func fetchAttestationAttestsKey() async throws {
         let attestationObject = try await sut.fetchAttestation()
 
         #expect(attestationProvider.didAttestKey)
 
-        let expectedChallenge = try challengeProvider.challenge
+        let expectedChallenge = try Data(
+            SHA256.hash(data: challengeProvider.challenge)
+        )
         #expect(attestationProvider.challengeUsedForAttest ==
                 expectedChallenge)
 

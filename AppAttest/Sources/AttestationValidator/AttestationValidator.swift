@@ -1,3 +1,4 @@
+import CryptoKit
 import Foundation
 import X509
 
@@ -18,10 +19,46 @@ public struct AttestationValidator {
 
     /// Validate this AttestationStatement using the steps given in the Device Check documentation:
     /// https://developer.apple.com/documentation/devicecheck/attestation-object-validation-guide#Walking-through-the-validation-steps
-    public func validate(attestation: AttestationObject) async throws {
+    public func validate(
+        attestation: AttestationObject,
+        challenge: Data
+    ) async throws {
         // 1. Verify that the x5c array contains the intermediate and leaf certificates for App Attest
-        // a) Intermediate certificate
-        // b) Leaf certificate
+        // Verify the validity of the certificates using Apple’s App Attest root certificate.
+        try await validateCertificateChain(attestation: attestation)
+        // 2. Create clientDataHash as the SHA256 hash of the one-time challenge
+        //    Append that hash to the end of the authenticator data
+        let compositeData = compose(
+            authenticatorData: attestation.authenticatorData,
+            withChallenge: challenge
+        )
+
+        // 3. Generate a new SHA256 hash of the composite item to create nonce.
+        let nonce = calculateNonce(composite: compositeData)
+
+        // 4. Obtain the value of the credCert extension with OID 1.2.840.113635.100.8.2
+        //    which is a DER-encoded ASN.1 sequence.
+        //
+        //    Decode the sequence and extract the single octet string that it contains.
+        //    Verify that the string equals nonce.
+
+        // 5. Create the SHA256 hash of the public key in credCert with X9.62 uncompressed point format,
+        //    and verify that it matches the key identifier from your app.
+
+        // 6. Compute the SHA256 hash of your app’s App ID, and verify that it’s the same as the
+        //    authenticator data’s RP ID hash.
+
+        // 7. Verify that the authenticator data’s counter field equals 0.
+
+        // 8 . Verify that the authenticator data’s aaguid field is either appattestdevelop
+        //     if operating in the development environment or appattest
+        //     followed by seven 0x00 bytes if operating in the production environment.
+
+        // 9. Verify that the authenticator data’s credentialId field is the same as the key identifier.
+
+    }
+
+    func validateCertificateChain(attestation: AttestationObject) async throws {
         let certificateChain = try attestation.statement
             .certificateChain
             .map(Certificate.init)
@@ -40,5 +77,17 @@ public struct AttestationValidator {
         else {
             throw AttestationValidationError.invalidCertificateChain
         }
+    }
+
+    func compose(
+        authenticatorData: Data,
+        withChallenge challenge: Data
+    ) -> Data {
+        let challengeHash = Data(SHA256.hash(data: challenge))
+        return authenticatorData + challengeHash
+    }
+
+    func calculateNonce(composite: Data) -> Data {
+        Data(SHA256.hash(data: composite))
     }
 }
