@@ -6,6 +6,7 @@ import X509
 public enum AttestationValidationError: Error {
     case invalidCertificateChain
     case failedChallenge
+    case incorrectSigningKey
 }
 
 public struct AttestationValidator {
@@ -23,7 +24,8 @@ public struct AttestationValidator {
     /// https://developer.apple.com/documentation/devicecheck/attestation-object-validation-guide#Walking-through-the-validation-steps
     public func validate(
         attestation: AttestationObject,
-        challenge: Data
+        challenge: Data,
+        keyID: String
     ) async throws {
         // 1. Verify that the x5c array contains the intermediate and leaf certificates for App Attest
         // Verify the validity of the certificates using Apple’s App Attest root certificate.
@@ -67,6 +69,13 @@ public struct AttestationValidator {
 
         // 5. Create the SHA256 hash of the public key in credCert with X9.62 uncompressed point format,
         //    and verify that it matches the key identifier from your app.
+        let publicKeyHash = Data(
+            SHA256.hash(data: leafCertificate.publicKey.subjectPublicKeyInfoBytes)
+        ).base64EncodedString()
+
+        guard publicKeyHash == keyID else {
+            throw AttestationValidationError.incorrectSigningKey
+        }
 
         // 6. Compute the SHA256 hash of your app’s App ID, and verify that it’s the same as the
         //    authenticator data’s RP ID hash.

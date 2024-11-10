@@ -88,13 +88,14 @@ struct AttestationValidatorTests {
         #expect(sut.calculateNonce(composite: compositeItem) == expectedNonce)
     }
 
-    @Test("Attestation object matches expected challenge")
+    @Test("Correctly accepts a valid AttestationObject")
     func matchingChallenge() async throws {
         let challenge = try #require(Data(base64Encoded: "QhTa7IcbW7LTtQyi"))
 
         try await sut.validate(
             attestation: .valid,
-            challenge: challenge
+            challenge: challenge,
+            keyID: "fUKP+Fxptwo+n1dchr9Y5fRXoTZ6Dz8a6vOzNW03N1I="
         )
     }
 
@@ -105,7 +106,8 @@ struct AttestationValidatorTests {
         await #expect(throws: AttestationValidationError.invalidCertificateChain) {
             try await sut.validate(
                 attestation: .expired,
-                challenge: challenge
+                challenge: challenge,
+                keyID: ""
             )
         }
     }
@@ -117,7 +119,8 @@ struct AttestationValidatorTests {
         await #expect(throws: AttestationValidationError.failedChallenge) {
             try await sut.validate(
                 attestation: .valid,
-                challenge: challenge
+                challenge: challenge,
+                keyID: ""
             )
         }
     }
