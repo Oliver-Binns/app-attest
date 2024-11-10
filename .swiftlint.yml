@@ -1,2 +1,4 @@
 line_length:
   ignores_urls: true
+disabled_rules:
+  - todo

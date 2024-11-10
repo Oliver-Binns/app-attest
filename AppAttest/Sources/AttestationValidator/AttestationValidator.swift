@@ -1,9 +1,11 @@
 import CryptoKit
 import Foundation
+import SwiftASN1
 import X509
 
 public enum AttestationValidationError: Error {
     case invalidCertificateChain
+    case failedChallenge
 }
 
 public struct AttestationValidator {
@@ -25,7 +27,11 @@ public struct AttestationValidator {
     ) async throws {
         // 1. Verify that the x5c array contains the intermediate and leaf certificates for App Attest
         // Verify the validity of the certificates using Apple’s App Attest root certificate.
-        try await validateCertificateChain(attestation: attestation)
+        let certificateChain = try attestation.statement
+            .certificateChain
+            .map(Certificate.init)
+        try await validateCertificateChain(certificateChain)
+
         // 2. Create clientDataHash as the SHA256 hash of the one-time challenge
         //    Append that hash to the end of the authenticator data
         let compositeData = compose(
@@ -39,8 +45,25 @@ public struct AttestationValidator {
         // 4. Obtain the value of the credCert extension with OID 1.2.840.113635.100.8.2
         //    which is a DER-encoded ASN.1 sequence.
         //
-        //    Decode the sequence and extract the single octet string that it contains.
-        //    Verify that the string equals nonce.
+        //    `credCert` here refers to the leaf certificate (unique for each attestation)
+        let leafCertificate = certificateChain[0]
+        let oidExtension = leafCertificate.extensions[
+            oid: "1.2.840.113635.100.8.2"
+        ]
+
+        guard
+            // Decode the sequence and extract the single octet string that it contains.
+            // First six bytes represent the ASN.1 wrapping of a string
+            // TODO: exploring how to use the Swift ASN.1 decode to extract the bytes properly.
+            // https://swiftpackageindex.com/apple/swift-asn1/1.3.0/documentation/swiftasn1
+            let octetString = oidExtension?.value
+                .map({ [$0] })
+                .reduce([], +)[6...],
+            // Verify that the string equals nonce.
+            nonce == Data(octetString)
+        else {
+            throw AttestationValidationError.failedChallenge
+        }
 
         // 5. Create the SHA256 hash of the public key in credCert with X9.62 uncompressed point format,
         //    and verify that it matches the key identifier from your app.
@@ -58,11 +81,7 @@ public struct AttestationValidator {
 
     }
 
-    func validateCertificateChain(attestation: AttestationObject) async throws {
-        let certificateChain = try attestation.statement
-            .certificateChain
-            .map(Certificate.init)
-
+    func validateCertificateChain(_ certificateChain: [Certificate]) async throws {
         var validator = try Verifier(rootCertificates: .appAttest) {
             RFC5280Policy(validationTime: validationDate)
         }
