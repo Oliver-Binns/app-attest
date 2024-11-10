@@ -1,23 +1,28 @@
 import CryptoKit
 import Foundation
-import SwiftASN1
 import X509
 
 public enum AttestationValidationError: Error {
     case invalidCertificateChain
     case failedChallenge
     case incorrectSigningKey
+    case wrongRelyingParty
 }
 
 public struct AttestationValidator {
-    let validationDate: Date
+    private let validationDate: Date
+    let appIDHash: Data
 
-    public init() {
-        validationDate = Date()
+    public init(appID: String) {
+        self.init(
+            appID: appID,
+            validationDate: Date()
+        )
     }
 
-    init(validationDate: Date) {
+    init(appID: String, validationDate: Date) {
         self.validationDate = validationDate
+        self.appIDHash = Data(SHA256.hash(data: Data(appID.utf8)))
     }
 
     /// Validate this AttestationStatement using the steps given in the Device Check documentation:
@@ -37,7 +42,7 @@ public struct AttestationValidator {
         // 2. Create clientDataHash as the SHA256 hash of the one-time challenge
         //    Append that hash to the end of the authenticator data
         let compositeData = compose(
-            authenticatorData: attestation.authenticatorData,
+            authenticatorData: attestation.authenticatorData.rawValue,
             withChallenge: challenge
         )
 
@@ -78,7 +83,10 @@ public struct AttestationValidator {
         }
 
         // 6. Compute the SHA256 hash of your app’s App ID, and verify that it’s the same as the
-        //    authenticator data’s RP ID hash.
+        //    authenticator data’s relying party (RP) ID hash.
+        guard attestation.authenticatorData.relyingPartyIDHash == appIDHash else {
+            throw AttestationValidationError.wrongRelyingParty
+        }
 
         // 7. Verify that the authenticator data’s counter field equals 0.
 
