@@ -14,7 +14,27 @@ struct AttestationValidatorTests {
         let date = try #require(
             Calendar.current.date(from: components)
         )
-        sut = AttestationValidator(validationDate: date)
+        sut = AttestationValidator(
+            appID: "Z86DH46P79.uk.co.oliverbinns.app-attest",
+            validationDate: date
+        )
+    }
+
+    @Test("Correctly calculates app ID hash")
+    func appIDHash() {
+        #expect(
+            sut.appIDHash.base64EncodedString() ==
+            "CVqj6oy4szHiiDd8cYbSvfsW9hVM3M8PUt8FUQyaY2w="
+        )
+
+        let appleExample = AttestationValidator(
+            appID: "0352187391.com.apple.example_app_attest"
+        ).appIDHash
+
+        #expect(
+            appleExample.base64EncodedString() ==
+            "FVhAM8lQuf6dUUziohGjJtcaprEBSrTG+i+9qdmqGKY="
+        )
     }
 
     @Test("Validate a valid attestation - throws no errors")
@@ -89,7 +109,7 @@ struct AttestationValidatorTests {
     }
 
     @Test("Correctly accepts a valid AttestationObject")
-    func matchingChallenge() async throws {
+    func validAttestationObject() async throws {
         let challenge = try #require(Data(base64Encoded: "QhTa7IcbW7LTtQyi"))
 
         try await sut.validate(
