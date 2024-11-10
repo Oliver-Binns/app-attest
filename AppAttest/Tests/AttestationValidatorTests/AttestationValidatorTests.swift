@@ -7,7 +7,7 @@ struct AttestationValidatorTests {
 
     init() throws {
         let components = DateComponents(
-            year: 2024, month: 11, day: 01,
+            year: 2024, month: 11, day: 10,
             hour: 12, minute: 0
         )
 
@@ -20,7 +20,7 @@ struct AttestationValidatorTests {
     @Test("Validate a valid attestation - throws no errors")
     func validateValidAttestation() async throws {
         try await sut.validateCertificateChain(
-            attestation: .valid
+            .valid
         )
     }
 
@@ -28,23 +28,15 @@ struct AttestationValidatorTests {
     func validateExpiredAttestation() async throws {
         await #expect(throws: AttestationValidationError.invalidCertificateChain) {
             try await sut.validateCertificateChain(
-                attestation: .expired
+                .expired
             )
         }
     }
 
     @Test("Validate an empty attestation - throws error")
     func validateIncorrectNumberOfCertificates() async throws {
-        let attestation = MockAttestationObject(
-            format: "apple-appattest",
-            authenticatorData: Data(),
-            statement: .empty
-        )
-
         await #expect(throws: AttestationValidationError.invalidCertificateChain) {
-            try await sut.validateCertificateChain(
-                attestation: attestation
-            )
+            try await sut.validateCertificateChain([])
         }
     }
 
@@ -94,5 +86,39 @@ struct AttestationValidatorTests {
         )
 
         #expect(sut.calculateNonce(composite: compositeItem) == expectedNonce)
+    }
+
+    @Test("Attestation object matches expected challenge")
+    func matchingChallenge() async throws {
+        let challenge = try #require(Data(base64Encoded: "QhTa7IcbW7LTtQyi"))
+
+        try await sut.validate(
+            attestation: .valid,
+            challenge: challenge
+        )
+    }
+
+    @Test("Attestation object certificate is validated")
+    func expiredCertificate() async throws {
+        let challenge = try #require(Data(base64Encoded: "QhTa7IcbW7LTtQyi"))
+
+        await #expect(throws: AttestationValidationError.invalidCertificateChain) {
+            try await sut.validate(
+                attestation: .expired,
+                challenge: challenge
+            )
+        }
+    }
+
+    @Test("Attestation object doesn't match expected challenge")
+    func mismatchingChallenge() async throws {
+        let challenge = try #require(Data(base64Encoded: ""))
+
+        await #expect(throws: AttestationValidationError.failedChallenge) {
+            try await sut.validate(
+                attestation: .valid,
+                challenge: challenge
+            )
+        }
     }
 }
