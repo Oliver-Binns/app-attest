@@ -8,22 +8,28 @@ public enum AttestationValidationError: Error {
     case incorrectSigningKey
     case wrongRelyingParty
     case reusedAttestationKey
+    case wrongEnvironment
 }
 
 public struct AttestationValidator {
     private let validationDate: Date
     let appIDHash: Data
+    private let environment: Environment
 
-    public init(appID: String) {
+    public init(appID: String, environment: Environment) {
         self.init(
             appID: appID,
+            environment: environment,
             validationDate: Date()
         )
     }
 
-    init(appID: String, validationDate: Date) {
-        self.validationDate = validationDate
+    init(appID: String,
+         environment: Environment,
+         validationDate: Date) {
         self.appIDHash = Data(SHA256.hash(data: Data(appID.utf8)))
+        self.environment = environment
+        self.validationDate = validationDate
     }
 
     /// Validate this AttestationStatement using the steps given in the Device Check documentation:
@@ -97,6 +103,9 @@ public struct AttestationValidator {
         // 8 . Verify that the authenticator data’s aaguid field is either appattestdevelop
         //     if operating in the development environment or appattest
         //     followed by seven 0x00 bytes if operating in the production environment.
+        guard attestation.authenticatorData.environment == environment else {
+            throw AttestationValidationError.wrongEnvironment
+        }
 
         // 9. Verify that the authenticator data’s credentialId field is the same as the key identifier.
 

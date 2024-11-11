@@ -26,4 +26,21 @@ struct AuthenticatorDataTests {
         #expect(largeCount.counter == 272)
     }
 
+    @Test("Authenticator Data correctly extracts the environment")
+    func environment() throws {
+        let development = try AuthenticatorData(rawValue:
+            Data(filename: "authenticator-data-valid")
+        )
+        #expect(development.environment == .development)
+
+        let production = try AuthenticatorData(rawValue:
+            Data(filename: "authenticator-data-production")
+        )
+        #expect(production.environment == .production)
+
+        let unknown = try AuthenticatorData(rawValue:
+            Data(filename: "authenticator-data-no-environment")
+        )
+        #expect(unknown.environment == nil)
+    }
 }

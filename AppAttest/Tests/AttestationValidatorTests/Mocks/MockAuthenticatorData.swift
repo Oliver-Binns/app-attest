@@ -8,6 +8,7 @@ struct MockAuthenticatorData: AuthenticatorData {
         rawValue.subdata(in: 0..<32)
     }
     let counter: Int
+    let environment: Environment?
 }
 
 extension AuthenticatorData
@@ -16,7 +17,8 @@ where Self == MockAuthenticatorData {
         get throws {
             try MockAuthenticatorData(
                 rawValue: .authenticator,
-                counter: 0
+                counter: 0,
+                environment: .development
             )
         }
     }

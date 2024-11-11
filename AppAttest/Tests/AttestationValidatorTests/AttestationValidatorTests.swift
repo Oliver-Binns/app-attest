@@ -3,9 +3,10 @@ import Foundation
 import Testing
 
 struct AttestationValidatorTests {
-    let sut: AttestationValidator
-
-    init() throws {
+    func createValidator(
+        appID: String = "Z86DH46P79.uk.co.oliverbinns.app-attest",
+        environment: Environment = .development
+    ) throws -> AttestationValidator {
         let components = DateComponents(
             year: 2024, month: 11, day: 10,
             hour: 12, minute: 0
@@ -14,21 +15,25 @@ struct AttestationValidatorTests {
         let date = try #require(
             Calendar.current.date(from: components)
         )
-        sut = AttestationValidator(
-            appID: "Z86DH46P79.uk.co.oliverbinns.app-attest",
+        return AttestationValidator(
+            appID: appID,
+            environment: environment,
             validationDate: date
         )
     }
 
     @Test("Correctly calculates app ID hash")
-    func appIDHash() {
+    func appIDHash() throws {
+        let sut = try createValidator()
+
         #expect(
             sut.appIDHash.base64EncodedString() ==
             "CVqj6oy4szHiiDd8cYbSvfsW9hVM3M8PUt8FUQyaY2w="
         )
 
         let appleExample = AttestationValidator(
-            appID: "0352187391.com.apple.example_app_attest"
+            appID: "0352187391.com.apple.example_app_attest",
+            environment: .development
         ).appIDHash
 
         #expect(
@@ -39,6 +44,8 @@ struct AttestationValidatorTests {
 
     @Test("Validate a valid attestation - throws no errors")
     func validateValidAttestation() async throws {
+        let sut = try createValidator()
+
         try await sut.validateCertificateChain(
             .valid
         )
@@ -46,6 +53,8 @@ struct AttestationValidatorTests {
 
     @Test("Validate an expired attestation - throws error")
     func validateExpiredAttestation() async throws {
+        let sut = try createValidator()
+
         await #expect(throws: AttestationValidationError.invalidCertificateChain) {
             try await sut.validateCertificateChain(
                 .expired
@@ -55,6 +64,8 @@ struct AttestationValidatorTests {
 
     @Test("Validate an empty attestation - throws error")
     func validateIncorrectNumberOfCertificates() async throws {
+        let sut = try createValidator()
+
         await #expect(throws: AttestationValidationError.invalidCertificateChain) {
             try await sut.validateCertificateChain([])
         }
@@ -66,6 +77,8 @@ struct AttestationValidatorTests {
     /// I have therefore generated my own sample data for this test:
     @Test("Correctly calculates client data hash")
     func clientDataHashCalculation() throws {
+        let sut = try createValidator()
+
         let authenticatorData = try #require(Data(base64Encoded: """
         CVqj6oy4szHiiDd8cYbSvfsW9hVM3M8PUt8FUQyaY2xAAAAAAGFwcGF0d
         GVzdGRldmVsb3AAIG9BWcivC09zC1xluwgP1Zvt7I09591dFznuIYgnma
@@ -93,6 +106,8 @@ struct AttestationValidatorTests {
 
     @Test("Correctly calculates nonce")
     func nonceCalculation() throws {
+        let sut = try createValidator()
+
         let compositeItem = try #require(Data(base64Encoded: """
         FVhAM8lQuf6dUUziohGjJtcaprEBSrTG+i+9qdmqGKZAAAAAAGFwcGF0d
         GVzdAAAAAAAAAAAIG0qxIRfEyMyL1kj8L2dItvlDga3uAEh/OKyteZunp
@@ -110,6 +125,8 @@ struct AttestationValidatorTests {
 
     @Test("Correctly accepts a valid AttestationObject")
     func validAttestationObject() async throws {
+        let sut = try createValidator()
+
         let challenge = try #require(Data(base64Encoded: "QhTa7IcbW7LTtQyi"))
 
         try await sut.validate(
@@ -121,6 +138,8 @@ struct AttestationValidatorTests {
 
     @Test("Attestation object certificate is validated")
     func expiredCertificate() async throws {
+        let sut = try createValidator()
+
         let challenge = try #require(Data(base64Encoded: "QhTa7IcbW7LTtQyi"))
 
         await #expect(throws: AttestationValidationError.invalidCertificateChain) {
@@ -134,6 +153,8 @@ struct AttestationValidatorTests {
 
     @Test("Attestation object doesn't match expected challenge")
     func mismatchingChallenge() async throws {
+        let sut = try createValidator()
+
         let challenge = try #require(Data(base64Encoded: ""))
 
         await #expect(throws: AttestationValidationError.failedChallenge) {
@@ -145,15 +166,35 @@ struct AttestationValidatorTests {
         }
     }
 
+    @Test("Correctly rejects AuthenticatorData from a different app")
+    func mismatchingRelyingPartyID() async throws {
+        let sut = try createValidator(
+            appID: "Z86DH46P79.uk.co.oliverbinns.conferences"
+        )
+
+        let challenge = try #require(Data(base64Encoded: "QhTa7IcbW7LTtQyi"))
+
+        await #expect(throws: AttestationValidationError.wrongRelyingParty) {
+            try await sut.validate(
+                attestation: .valid,
+                challenge: challenge,
+                keyID: "fUKP+Fxptwo+n1dchr9Y5fRXoTZ6Dz8a6vOzNW03N1I="
+            )
+        }
+    }
+
     @Test("Validator rejects object where count is greater than zero")
     func reusedAttestationKey() async throws {
+        let sut = try createValidator()
+
         let challenge = try #require(Data(
             base64Encoded: "QhTa7IcbW7LTtQyi"
         ))
 
         let authenticatorData = try MockAuthenticatorData(
             rawValue: .authenticator,
-            counter: 1
+            counter: 1,
+            environment: .development
         )
         let attestation = try MockAttestationObject(
             format: "apple-appattest",
@@ -170,4 +211,87 @@ struct AttestationValidatorTests {
         }
     }
 
+    @Test("Validator rejects production attestation object in development environment")
+    func incorrectProductionAttestationInDevelopment() async throws {
+        let sut = try createValidator()
+
+        let challenge = try #require(Data(
+            base64Encoded: "QhTa7IcbW7LTtQyi"
+        ))
+
+        let productionData = try MockAuthenticatorData(
+            rawValue: .authenticator,
+            counter: 0,
+            environment: .production
+        )
+        let attestation = try MockAttestationObject(
+            format: "apple-appattest",
+            authenticatorData: productionData,
+            statement: .valid
+        )
+
+        await #expect(throws: AttestationValidationError.wrongEnvironment) {
+            try await sut.validate(
+                attestation: attestation,
+                challenge: challenge,
+                keyID: "fUKP+Fxptwo+n1dchr9Y5fRXoTZ6Dz8a6vOzNW03N1I="
+            )
+        }
+    }
+
+    @Test("Validator rejects nil attestation object in production environment")
+    func incorrectNilAttestationInProduction() async throws {
+        let sut = try createValidator(environment: .production)
+
+        let challenge = try #require(Data(
+            base64Encoded: "QhTa7IcbW7LTtQyi"
+        ))
+
+        let data = try MockAuthenticatorData(
+            rawValue: .authenticator,
+            counter: 0,
+            environment: nil
+        )
+        let attestation = try MockAttestationObject(
+            format: "apple-appattest",
+            authenticatorData: data,
+            statement: .valid
+        )
+
+        await #expect(throws: AttestationValidationError.wrongEnvironment) {
+            try await sut.validate(
+                attestation: attestation,
+                challenge: challenge,
+                keyID: "fUKP+Fxptwo+n1dchr9Y5fRXoTZ6Dz8a6vOzNW03N1I="
+            )
+        }
+    }
+
+    @Test("Validator rejects development attestation object in production environment")
+    func incorrectDevelopmentAttestationInProduction() async throws {
+        let sut = try createValidator(environment: .production)
+
+        let challenge = try #require(Data(
+            base64Encoded: "QhTa7IcbW7LTtQyi"
+        ))
+
+        let productionData = try MockAuthenticatorData(
+            rawValue: .authenticator,
+            counter: 0,
+            environment: .development
+        )
+        let attestation = try MockAttestationObject(
+            format: "apple-appattest",
+            authenticatorData: productionData,
+            statement: .valid
+        )
+
+        await #expect(throws: AttestationValidationError.wrongEnvironment) {
+            try await sut.validate(
+                attestation: attestation,
+                challenge: challenge,
+                keyID: "fUKP+Fxptwo+n1dchr9Y5fRXoTZ6Dz8a6vOzNW03N1I="
+            )
+        }
+    }
 }
