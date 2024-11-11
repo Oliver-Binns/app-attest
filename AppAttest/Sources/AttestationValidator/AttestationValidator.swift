@@ -7,6 +7,7 @@ public enum AttestationValidationError: Error {
     case failedChallenge
     case incorrectSigningKey
     case wrongRelyingParty
+    case reusedAttestationKey
 }
 
 public struct AttestationValidator {
@@ -89,6 +90,9 @@ public struct AttestationValidator {
         }
 
         // 7. Verify that the authenticator data’s counter field equals 0.
+        guard attestation.authenticatorData.counter == 0 else {
+            throw AttestationValidationError.reusedAttestationKey
+        }
 
         // 8 . Verify that the authenticator data’s aaguid field is either appattestdevelop
         //     if operating in the development environment or appattest
