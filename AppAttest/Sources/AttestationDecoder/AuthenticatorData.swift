@@ -32,4 +32,8 @@ public struct AuthenticatorData: RawRepresentable, Decodable {
             value << 8 | Int(byte)
         }
     }
+
+    var environment: Environment? {
+        Environment(bytes: rawValue[37..<53])
+    }
 }

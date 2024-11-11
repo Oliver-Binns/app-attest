@@ -8,17 +8,7 @@ struct AttestationObjectTests {
     let sut: AttestationObject
 
     init() throws {
-        let url = try #require(Bundle.module.url(
-            forResource: "attest-base64",
-            withExtension: "txt"
-        ))
-        let fileContents = try Data(contentsOf: url)
-        let string = try #require(String(data: fileContents, encoding: .utf8))
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        let data = try #require(
-            Data(base64Encoded: string)
-        )
-
+        let data = try Data(filename: "attest-base64")
         sut = try decoder.decode(
             AttestationObject.self .self,
             from: data
