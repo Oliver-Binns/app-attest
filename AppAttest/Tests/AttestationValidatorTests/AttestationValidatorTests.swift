@@ -144,4 +144,30 @@ struct AttestationValidatorTests {
             )
         }
     }
+
+    @Test("Validator rejects object where count is greater than zero")
+    func reusedAttestationKey() async throws {
+        let challenge = try #require(Data(
+            base64Encoded: "QhTa7IcbW7LTtQyi"
+        ))
+
+        let authenticatorData = try MockAuthenticatorData(
+            rawValue: .authenticator,
+            counter: 1
+        )
+        let attestation = try MockAttestationObject(
+            format: "apple-appattest",
+            authenticatorData: authenticatorData,
+            statement: .valid
+        )
+
+        await #expect(throws: AttestationValidationError.reusedAttestationKey) {
+            try await sut.validate(
+                attestation: attestation,
+                challenge: challenge,
+                keyID: "fUKP+Fxptwo+n1dchr9Y5fRXoTZ6Dz8a6vOzNW03N1I="
+            )
+        }
+    }
+
 }
