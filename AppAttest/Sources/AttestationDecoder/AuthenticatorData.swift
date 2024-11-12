@@ -23,17 +23,24 @@ public struct AuthenticatorData: RawRepresentable, Decodable {
         self.rawValue = try container.decode(Data.self)
     }
 
-    var relyingPartyIDHash: Data {
+    public var relyingPartyIDHash: Data {
         rawValue[0..<32]
     }
 
-    var counter: Int {
-        rawValue[33..<37].reduce(0) { value, byte in
-            value << 8 | Int(byte)
-        }
+    public var counter: Int {
+        Int(data: rawValue[33..<37])
     }
 
-    var environment: Environment? {
+    public var environment: Environment? {
         Environment(bytes: rawValue[37..<53])
+    }
+
+    var credentialIDLength: Int {
+        Int(data: rawValue[53..<55])
+    }
+
+    var credentialID: String {
+        let endIndex = rawValue.index(55, offsetBy: credentialIDLength)
+        return rawValue[55..<endIndex].base64EncodedString()
     }
 }

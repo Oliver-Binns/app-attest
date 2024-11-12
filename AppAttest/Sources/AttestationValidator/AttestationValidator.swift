@@ -108,7 +108,9 @@ public struct AttestationValidator {
         }
 
         // 9. Verify that the authenticator data’s credentialId field is the same as the key identifier.
-
+        guard attestation.authenticatorData.credentialID == keyID else {
+            throw AttestationValidationError.incorrectSigningKey
+        }
     }
 
     func validateCertificateChain(_ certificateChain: [Certificate]) async throws {

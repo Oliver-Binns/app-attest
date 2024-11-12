@@ -9,17 +9,24 @@ struct MockAuthenticatorData: AuthenticatorData {
     }
     let counter: Int
     let environment: Environment?
+    let credentialID: String
+
+    init(rawValue: Data? = nil,
+         counter: Int = 0,
+         environment: Environment? = .development,
+         credentialID: String = "fUKP+Fxptwo+n1dchr9Y5fRXoTZ6Dz8a6vOzNW03N1I=") throws {
+        self.rawValue = try rawValue ?? .authenticator
+        self.counter = counter
+        self.environment = environment
+        self.credentialID = credentialID
+    }
 }
 
 extension AuthenticatorData
 where Self == MockAuthenticatorData {
     static var valid: AuthenticatorData {
         get throws {
-            try MockAuthenticatorData(
-                rawValue: .authenticator,
-                counter: 0,
-                environment: .development
-            )
+            try MockAuthenticatorData()
         }
     }
 }
