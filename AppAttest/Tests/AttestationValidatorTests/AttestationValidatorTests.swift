@@ -192,9 +192,7 @@ struct AttestationValidatorTests {
         ))
 
         let authenticatorData = try MockAuthenticatorData(
-            rawValue: .authenticator,
-            counter: 1,
-            environment: .development
+            counter: 1
         )
         let attestation = try MockAttestationObject(
             format: "apple-appattest",
@@ -220,8 +218,6 @@ struct AttestationValidatorTests {
         ))
 
         let productionData = try MockAuthenticatorData(
-            rawValue: .authenticator,
-            counter: 0,
             environment: .production
         )
         let attestation = try MockAttestationObject(
@@ -242,25 +238,13 @@ struct AttestationValidatorTests {
     @Test("Validator rejects nil attestation object in production environment")
     func incorrectNilAttestationInProduction() async throws {
         let sut = try createValidator(environment: .production)
-
         let challenge = try #require(Data(
             base64Encoded: "QhTa7IcbW7LTtQyi"
         ))
 
-        let data = try MockAuthenticatorData(
-            rawValue: .authenticator,
-            counter: 0,
-            environment: nil
-        )
-        let attestation = try MockAttestationObject(
-            format: "apple-appattest",
-            authenticatorData: data,
-            statement: .valid
-        )
-
         await #expect(throws: AttestationValidationError.wrongEnvironment) {
             try await sut.validate(
-                attestation: attestation,
+                attestation: .valid,
                 challenge: challenge,
                 keyID: "fUKP+Fxptwo+n1dchr9Y5fRXoTZ6Dz8a6vOzNW03N1I="
             )
@@ -275,11 +259,7 @@ struct AttestationValidatorTests {
             base64Encoded: "QhTa7IcbW7LTtQyi"
         ))
 
-        let productionData = try MockAuthenticatorData(
-            rawValue: .authenticator,
-            counter: 0,
-            environment: .development
-        )
+        let productionData = try MockAuthenticatorData()
         let attestation = try MockAttestationObject(
             format: "apple-appattest",
             authenticatorData: productionData,
@@ -287,6 +267,29 @@ struct AttestationValidatorTests {
         )
 
         await #expect(throws: AttestationValidationError.wrongEnvironment) {
+            try await sut.validate(
+                attestation: attestation,
+                challenge: challenge,
+                keyID: "fUKP+Fxptwo+n1dchr9Y5fRXoTZ6Dz8a6vOzNW03N1I="
+            )
+        }
+    }
+
+    @Test("Validator rejects Authenticator Data with incorrect key ID")
+    func keyIDInAuthenticatorData() async throws {
+        let sut = try createValidator()
+        let challenge = try #require(Data(base64Encoded: "QhTa7IcbW7LTtQyi"))
+
+        let data = try MockAuthenticatorData(
+            credentialID: UUID().uuidString
+        )
+        let attestation = try MockAttestationObject(
+            format: "apple-appattest",
+            authenticatorData: data,
+            statement: .valid
+        )
+
+        await #expect(throws: AttestationValidationError.incorrectSigningKey) {
             try await sut.validate(
                 attestation: attestation,
                 challenge: challenge,

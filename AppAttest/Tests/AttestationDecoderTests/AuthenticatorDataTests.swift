@@ -43,4 +43,14 @@ struct AuthenticatorDataTests {
         )
         #expect(unknown.environment == nil)
     }
+
+    @Test("Authenticator Data correctly extracts the key ID")
+    func keyID() throws {
+        let data = try Data(filename: "authenticator-data-valid")
+        let sut = AuthenticatorData(rawValue: data)
+        #expect(
+            sut.credentialID ==
+            "fUKP+Fxptwo+n1dchr9Y5fRXoTZ6Dz8a6vOzNW03N1I="
+        )
+    }
 }
