@@ -5,10 +5,8 @@ import Testing
 final class MockChallengeProvider: ChallengeProvider {
     private(set) var didRequestChallenge = false
 
-    var challenge: Data {
-        get throws {
-            didRequestChallenge = true
-            return Data("abc123".utf8)
-        }
+    func challenge(for keyID: String) async throws -> Data {
+        didRequestChallenge = true
+        return Data("abc123".utf8)
     }
 }

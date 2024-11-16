@@ -4,7 +4,8 @@ import SwiftUI
 @main
 struct AppAttestDemoApp: App {
     let appAttestProvider: AppAttestProvider = AppAttestService(
-        challengeProvider: LocalChallengeProvider()
+        // challengeProvider: LocalChallengeProvider()
+        challengeProvider: RemoteChallengeProvider()
     )
 
     var body: some Scene {
