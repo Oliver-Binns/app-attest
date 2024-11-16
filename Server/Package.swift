@@ -14,24 +14,28 @@ let package = Package(
         // 🪶 Fluent driver for SQLite.
         .package(url: "https://github.com/vapor/fluent-sqlite-driver.git", from: "4.6.0"),
         // 🔵 Non-blocking, event-driven networking for Swift. Used for custom executors
-        .package(url: "https://github.com/apple/swift-nio.git", from: "2.65.0")
+        .package(url: "https://github.com/apple/swift-nio.git", from: "2.65.0"),
+
+        // App Attest requirements:
+        .package(path: "../AppAttest")
     ],
     targets: [
         .executableTarget(
-            name: "App",
+            name: "Server",
             dependencies: [
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "NIOCore", package: "swift-nio"),
-                .product(name: "NIOPosix", package: "swift-nio")
+                .product(name: "NIOPosix", package: "swift-nio"),
+                .product(name: "AttestServer", package: "AppAttest")
             ],
             swiftSettings: swiftSettings
         ),
         .testTarget(
-            name: "AppTests",
+            name: "ServerTests",
             dependencies: [
-                .target(name: "App"),
+                .target(name: "Server"),
                 .product(name: "XCTVapor", package: "vapor")
             ],
             swiftSettings: swiftSettings

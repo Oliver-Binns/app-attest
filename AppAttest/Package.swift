@@ -12,7 +12,14 @@ let package = Package(
         .watchOS(.v9)
     ],
     products: [
-        .library(name: "AppAttest", targets: ["AppAttest"])
+        .library(
+            name: "AppAttest",
+            targets: ["AppAttest"]
+        ),
+        .library(
+            name: "AttestServer",
+            targets: ["AttestationDecoder", "AttestationValidator"]
+        )
     ],
     dependencies: [
         .package(
