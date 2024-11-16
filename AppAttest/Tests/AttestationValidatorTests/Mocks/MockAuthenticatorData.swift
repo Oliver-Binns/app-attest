@@ -8,12 +8,12 @@ struct MockAuthenticatorData: AuthenticatorData {
         rawValue.subdata(in: 0..<32)
     }
     let counter: Int
-    let environment: Environment?
+    let environment: AttestationEnvironment?
     let credentialID: String
 
     init(rawValue: Data? = nil,
          counter: Int = 0,
-         environment: Environment? = .development,
+         environment: AttestationEnvironment? = .development,
          credentialID: String = "fUKP+Fxptwo+n1dchr9Y5fRXoTZ6Dz8a6vOzNW03N1I=") throws {
         self.rawValue = try rawValue ?? .authenticator
         self.counter = counter

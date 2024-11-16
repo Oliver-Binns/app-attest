@@ -14,9 +14,9 @@ public enum AttestationValidationError: Error {
 public struct AttestationValidator {
     private let validationDate: Date
     let appIDHash: Data
-    private let environment: Environment
+    private let environment: AttestationEnvironment
 
-    public init(appID: String, environment: Environment) {
+    public init(appID: String, environment: AttestationEnvironment) {
         self.init(
             appID: appID,
             environment: environment,
@@ -25,7 +25,7 @@ public struct AttestationValidator {
     }
 
     init(appID: String,
-         environment: Environment,
+         environment: AttestationEnvironment,
          validationDate: Date) {
         self.appIDHash = Data(SHA256.hash(data: Data(appID.utf8)))
         self.environment = environment

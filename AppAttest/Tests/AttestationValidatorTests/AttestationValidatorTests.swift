@@ -5,7 +5,7 @@ import Testing
 struct AttestationValidatorTests {
     func createValidator(
         appID: String = "Z86DH46P79.uk.co.oliverbinns.app-attest",
-        environment: Environment = .development
+        environment: AttestationEnvironment = .development
     ) throws -> AttestationValidator {
         let components = DateComponents(
             year: 2024, month: 11, day: 10,

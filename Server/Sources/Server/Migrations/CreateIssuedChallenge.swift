@@ -2,13 +2,14 @@ import Fluent
 
 struct CreateAppInstance: AsyncMigration {
     func prepare(on database: Database) async throws {
-        try await database.schema("todos")
+        try await database.schema("challenges")
             .id()
-            .field("title", .string, .required)
+            .field("key_id", .string, .required)
+            .field("challenge", .data, .required)
             .create()
     }
 
     func revert(on database: Database) async throws {
-        try await database.schema("todos").delete()
+        try await database.schema("challenges").delete()
     }
 }

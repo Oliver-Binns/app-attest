@@ -29,9 +29,3 @@ struct AppTests {
         }
     }
 }
-
-extension AppInstanceDTO: Equatable {
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.id == rhs.id && lhs.title == rhs.title
-    }
-}
