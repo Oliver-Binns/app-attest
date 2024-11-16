@@ -5,10 +5,9 @@ struct IssuedChallengeDTO: Content {
     let keyID: String
     let challenge: Data
 
-    init(keyID: String,
-         challenge: Data = Data(AES.GCM.Nonce())) {
+    init(keyID: String) throws {
         self.keyID = keyID
-        self.challenge = challenge
+        self.challenge = try Data(AES.GCM.Nonce(length: 16))
     }
 
     func toModel() -> IssuedChallenge {

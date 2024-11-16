@@ -18,7 +18,7 @@ struct AppAttestController: RouteCollection {
             .keyID
 
         // Create Challenge
-        let challenge = IssuedChallengeDTO(
+        let challenge = try IssuedChallengeDTO(
             keyID: keyID
         )
 

@@ -28,7 +28,17 @@ struct AppAttestControllerTests {
                 try req.content.encode(ChallengeRequest(keyID: keyID))
             }, afterResponse: { res async throws in
                 #expect(res.status == .ok)
-                let models = try await IssuedChallenge.query(on: app.db)
+
+                let content = try res.content
+                    .decode(IssuedChallenge.self)
+                #expect(content.keyID == keyID)
+
+                // unique one-time challenge, at least 16 bytes in length:
+                #expect(content.challenge.count >= 16)
+
+                // Data is saved for re-validation at a later date.
+                let models = try await IssuedChallenge
+                    .query(on: app.db)
                     .all()
                 #expect(models.count == 1)
                 #expect(models.first?.keyID == keyID)
