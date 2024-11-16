@@ -15,8 +15,8 @@
     {
       "target" : {
         "containerPath" : "container:AppAttest",
-        "identifier" : "AttestationDecoderTests",
-        "name" : "AttestationDecoderTests"
+        "identifier" : "AttestationValidatorTests",
+        "name" : "AttestationValidatorTests"
       }
     },
     {
@@ -29,8 +29,8 @@
     {
       "target" : {
         "containerPath" : "container:AppAttest",
-        "identifier" : "AttestationValidatorTests",
-        "name" : "AttestationValidatorTests"
+        "identifier" : "AttestationDecoderTests",
+        "name" : "AttestationDecoderTests"
       }
     },
     {
@@ -43,8 +43,8 @@
     {
       "target" : {
         "containerPath" : "container:",
-        "identifier" : "AppTests",
-        "name" : "AppTests"
+        "identifier" : "ServerTests",
+        "name" : "ServerTests"
       }
     }
   ],
