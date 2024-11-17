@@ -9,7 +9,7 @@ import Foundation
 /// Apple recommends that a 16-byte block should be used in real environments:
 /// https://developer.apple.com/documentation/devicecheck/dcappattestservice/attestkey(_:clientdatahash:completionhandler:)
 struct LocalChallengeProvider: ChallengeProvider {
-    var challenge: Data {
+    func challenge(for keyID: String) async throws -> Data {
         Data(AES.GCM.Nonce())
     }
 }

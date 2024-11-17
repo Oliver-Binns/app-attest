@@ -29,7 +29,8 @@ public final class AppAttestService: AppAttestProvider {
             throw AppAttestServiceError.unsupportedDevice
         }
         let keyID = try await attestationProvider.generateKey()
-        let challenge = try await challengeProvider.challenge
+        let challenge = try await challengeProvider
+            .challenge(for: keyID)
         let clientDataHash = Data(SHA256.hash(data: challenge))
 
         return try await attestationProvider.attestKey(

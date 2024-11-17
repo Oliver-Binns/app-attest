@@ -55,8 +55,11 @@ struct AppAttestServiceTests {
 
         #expect(attestationProvider.didAttestKey)
 
-        let expectedChallenge = try Data(
-            SHA256.hash(data: challengeProvider.challenge)
+        let challengeData = try await challengeProvider
+            .challenge(for: String())
+
+        let expectedChallenge = Data(
+            SHA256.hash(data: challengeData)
         )
         #expect(attestationProvider.challengeUsedForAttest ==
                 expectedChallenge)
