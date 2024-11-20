@@ -6,6 +6,7 @@ struct CreateAppInstance: AsyncMigration {
             .id()
             .field("key_id", .string, .required)
             .field("challenge", .data, .required)
+            .field("created_at", .date, .required)
             .create()
     }
 

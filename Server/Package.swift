@@ -38,6 +38,7 @@ let package = Package(
                 .target(name: "Server"),
                 .product(name: "XCTVapor", package: "vapor")
             ],
+            resources: [.process("Resources")],
             swiftSettings: swiftSettings
         )
     ],

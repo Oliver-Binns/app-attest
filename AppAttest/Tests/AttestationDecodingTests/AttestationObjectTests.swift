@@ -1,6 +1,6 @@
-import AttestationDecoder
-import SwiftCBOR
+import AttestationDecoding
 import Foundation
+import SwiftCBOR
 import Testing
 
 struct AttestationObjectTests {

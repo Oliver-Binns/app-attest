@@ -1,4 +1,4 @@
-@testable import AttestationValidator
+@testable import AttestationValidation
 import Foundation
 import Testing
 

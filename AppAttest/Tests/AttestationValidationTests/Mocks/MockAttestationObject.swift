@@ -1,16 +1,16 @@
-import AttestationValidator
+import AttestationValidation
 import Foundation
 import Testing
 
 struct MockAttestationObject: AttestationObject {
     let format: String
-    let authenticatorData: AuthenticatorData
-    let statement: AttestationStatement
+    let authenticatorData: MockAuthenticatorData
+    let statement: MockAttestationStatement
 }
 
 extension AttestationObject
 where Self == MockAttestationObject {
-    static var valid: AttestationObject {
+    static var valid: any AttestationObject {
         get throws {
             try MockAttestationObject(
                 format: "apple-appattest",
@@ -20,7 +20,7 @@ where Self == MockAttestationObject {
         }
     }
 
-    static var expired: AttestationObject {
+    static var expired: any AttestationObject {
         get throws {
             try MockAttestationObject(
                 format: "apple-appattest",

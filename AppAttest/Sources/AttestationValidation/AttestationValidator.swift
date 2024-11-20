@@ -35,16 +35,15 @@ public struct AttestationValidator {
     /// Validate this AttestationStatement using the steps given in the Device Check documentation:
     /// https://developer.apple.com/documentation/devicecheck/attestation-object-validation-guide#Walking-through-the-validation-steps
     public func validate(
-        attestation: AttestationObject,
+        attestation: any AttestationObject,
         challenge: Data,
         keyID: String
     ) async throws {
         // 1. Verify that the x5c array contains the intermediate and leaf certificates for App Attest
         // Verify the validity of the certificates using Apple’s App Attest root certificate.
-        let certificateChain = try attestation.statement
-            .certificateChain
-            .map(Certificate.init)
-        try await validateCertificateChain(certificateChain)
+        try await validateCertificateChain(
+            attestation.statement.certificateChain
+        )
 
         // 2. Create clientDataHash as the SHA256 hash of the one-time challenge
         //    Append that hash to the end of the authenticator data
@@ -60,7 +59,7 @@ public struct AttestationValidator {
         //    which is a DER-encoded ASN.1 sequence.
         //
         //    `credCert` here refers to the leaf certificate (unique for each attestation)
-        let leafCertificate = certificateChain[0]
+        let leafCertificate = attestation.statement.certificateChain[0]
         let oidExtension = leafCertificate.extensions[
             oid: "1.2.840.113635.100.8.2"
         ]
@@ -142,3 +141,5 @@ public struct AttestationValidator {
         Data(SHA256.hash(data: composite))
     }
 }
+
+extension AttestationValidator: Sendable { }

@@ -1,6 +1,7 @@
-import AttestationDecoder
+import AttestationDecoding
 import Foundation
 import Testing
+import X509
 
 struct AttestationStatementTests {
     let decoder = JSONDecoder()
@@ -24,36 +25,20 @@ struct AttestationStatementTests {
 
         let intermediateCertificate = try #require(sut.certificateChain.first)
         #expect(try fetchName(from: intermediateCertificate) ==
-                "Apple App Attestation CA 1")
+                "CN=Apple App Attestation CA 1")
 
         let leafCertificate = try #require(
             sut.certificateChain.first
         )
         #expect(try fetchName(from: leafCertificate) ==
-                "Apple App Attestation CA 1")
+                "CN=Apple App Attestation CA 1")
     }
 
 }
 
 extension AttestationStatementTests {
-    func fetchName(from certificate: SecCertificate) throws -> String {
-        let values = try #require(
-            SecCertificateCopyValues(
-                certificate,
-                nil,
-                nil
-            ) as? [String: Any]
-        )
-
-        let issuerName = try #require(
-            values[kSecOIDX509V1IssuerName as String] as? [String: Any]
-        )
-
-        let nameComponents = try #require(
-            issuerName["value"] as? NSArray
-        )
-
-        let first = try #require(nameComponents[0] as? [String: Any])
-        return try #require(first["value"] as? String)
+    func fetchName(from certificate: Certificate) throws -> String {
+        let name = try #require(certificate.issuer.first)
+        return name.description
     }
 }

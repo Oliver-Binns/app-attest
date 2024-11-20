@@ -1,15 +1,16 @@
-import AttestationValidator
+import AttestationValidation
 import Foundation
+import X509
 import Testing
 
 struct MockAttestationStatement: AttestationStatement {
-    let certificateChain: [SecCertificate]
+    let certificateChain: [Certificate]
     let receipt: Data
 }
 
 extension AttestationStatement
 where Self == MockAttestationStatement {
-    static var valid: AttestationStatement {
+    static var valid: MockAttestationStatement {
         get throws {
             try MockAttestationStatement(
                 certificateChain: [
@@ -21,7 +22,7 @@ where Self == MockAttestationStatement {
         }
     }
 
-    static var expired: AttestationStatement {
+    static var expired: MockAttestationStatement {
         get throws {
             try MockAttestationStatement(
                 certificateChain: [
@@ -33,7 +34,7 @@ where Self == MockAttestationStatement {
         }
     }
 
-    static var empty: AttestationStatement {
+    static var empty: MockAttestationStatement {
         MockAttestationStatement(
             certificateChain: [],
             receipt: Data()
