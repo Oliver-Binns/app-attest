@@ -23,8 +23,8 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/SomeRandomiOSDev/CBORCoding",
-            exact: "1.4.0"
+            url: "https://github.com/valpackett/SwiftCBOR.git",
+            exact: "0.5.0"
         ),
         .package(
             url: "https://github.com/apple/swift-certificates",
@@ -41,7 +41,7 @@ let package = Package(
         .target(
             name: "AttestationDecoder",
             dependencies: [
-                .product(name: "CBORCoding", package: "CBORCoding")
+                .product(name: "SwiftCBOR", package: "SwiftCBOR")
             ]
         ),
         .testTarget(
