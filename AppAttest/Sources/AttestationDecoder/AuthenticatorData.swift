@@ -11,16 +11,11 @@ import Foundation
 /// `signCount` | 4 |  A signature counter, if supported by the authenticator (set to 0 otherwise)
 ///
 ///
-public struct AuthenticatorData: RawRepresentable, Decodable {
+public struct AuthenticatorData: RawRepresentable {
     public let rawValue: Data
 
     public init(rawValue data: Data) {
         rawValue = data
-    }
-
-    public init(from decoder: any Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        self.rawValue = try container.decode(Data.self)
     }
 
     public var relyingPartyIDHash: Data {

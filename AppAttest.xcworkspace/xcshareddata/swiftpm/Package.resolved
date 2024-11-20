@@ -1,5 +1,5 @@
 {
-  "originHash" : "426e6bc1b765e760b005e87259705e5cf61026b457accda83efabcdce9879a4f",
+  "originHash" : "fbe9f9f5a7ca57fdf367f31e00b363e809c12ec34fc1d0a60e8d2f0186985ecc",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -17,15 +17,6 @@
       "state" : {
         "revision" : "e048c8ee94967e8d8a1c2ec0e1156d6f7fa34d31",
         "version" : "1.20.0"
-      }
-    },
-    {
-      "identity" : "cborcoding",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SomeRandomiOSDev/CBORCoding",
-      "state" : {
-        "revision" : "6fbd643c64cf6ef7a98391820c372d05fa9ed9ab",
-        "version" : "1.4.0"
       }
     },
     {
@@ -62,15 +53,6 @@
       "state" : {
         "revision" : "6e3a5ff7f2cb733771a6bd71dd3a491cce79f24d",
         "version" : "4.8.0"
-      }
-    },
-    {
-      "identity" : "half",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SomeRandomiOSDev/Half",
-      "state" : {
-        "revision" : "14b1ab35ffdf62c999ef1016ec0f8e745a6feed5",
-        "version" : "1.4.2"
       }
     },
     {
@@ -260,6 +242,15 @@
       "state" : {
         "revision" : "c8a44d836fe7913603e246acab7c528c2e780168",
         "version" : "1.4.0"
+      }
+    },
+    {
+      "identity" : "swiftcbor",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/valpackett/SwiftCBOR.git",
+      "state" : {
+        "revision" : "04ccff117f6549121d5721ec84fdf0162122b90e",
+        "version" : "0.5.0"
       }
     },
     {
