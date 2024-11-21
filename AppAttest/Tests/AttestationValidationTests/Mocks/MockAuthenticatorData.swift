@@ -1,4 +1,4 @@
-import AttestationValidator
+import AttestationValidation
 import Foundation
 import Testing
 
@@ -8,12 +8,12 @@ struct MockAuthenticatorData: AuthenticatorData {
         rawValue.subdata(in: 0..<32)
     }
     let counter: Int
-    let environment: AttestationEnvironment?
+    let environment: AttestationEnvironment
     let credentialID: String
 
     init(rawValue: Data? = nil,
          counter: Int = 0,
-         environment: AttestationEnvironment? = .development,
+         environment: AttestationEnvironment = .development,
          credentialID: String = "fUKP+Fxptwo+n1dchr9Y5fRXoTZ6Dz8a6vOzNW03N1I=") throws {
         self.rawValue = try rawValue ?? .authenticator
         self.counter = counter
@@ -24,7 +24,7 @@ struct MockAuthenticatorData: AuthenticatorData {
 
 extension AuthenticatorData
 where Self == MockAuthenticatorData {
-    static var valid: AuthenticatorData {
+    static var valid: MockAuthenticatorData {
         get throws {
             try MockAuthenticatorData()
         }

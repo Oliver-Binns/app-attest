@@ -1,4 +1,4 @@
-@testable import AttestationDecoder
+@testable import AttestationDecoding
 import Foundation
 import Testing
 
@@ -31,17 +31,17 @@ struct AuthenticatorDataTests {
         let development = try AuthenticatorData(rawValue:
             Data(filename: "authenticator-data-valid")
         )
-        #expect(development.environment == .development)
+        #expect(!development.isProduction)
 
         let production = try AuthenticatorData(rawValue:
             Data(filename: "authenticator-data-production")
         )
-        #expect(production.environment == .production)
+        #expect(production.isProduction)
 
         let unknown = try AuthenticatorData(rawValue:
             Data(filename: "authenticator-data-no-environment")
         )
-        #expect(unknown.environment == nil)
+        #expect(!unknown.isProduction)
     }
 
     @Test("Authenticator Data correctly extracts the key ID")

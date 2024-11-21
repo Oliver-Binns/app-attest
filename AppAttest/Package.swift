@@ -18,7 +18,7 @@ let package = Package(
         ),
         .library(
             name: "AttestServer",
-            targets: ["AttestationDecoder", "AttestationValidator"]
+            targets: ["AttestationDecoding", "AttestationValidation"]
         )
     ],
     dependencies: [
@@ -39,27 +39,28 @@ let package = Package(
         ),
 
         .target(
-            name: "AttestationDecoder",
+            name: "AttestationDecoding",
             dependencies: [
-                .product(name: "SwiftCBOR", package: "SwiftCBOR")
+                .product(name: "SwiftCBOR", package: "SwiftCBOR"),
+                .product(name: "X509", package: "swift-certificates")
             ]
         ),
         .testTarget(
-            name: "AttestationDecoderTests",
-            dependencies: ["AttestationDecoder"],
+            name: "AttestationDecodingTests",
+            dependencies: ["AttestationDecoding"],
             resources: [.process("Resources")]
         ),
 
         .target(
-            name: "AttestationValidator",
+            name: "AttestationValidation",
             dependencies: [
                 .product(name: "X509", package: "swift-certificates")
             ],
             resources: [.process("Resources")]
         ),
         .testTarget(
-            name: "AttestationValidatorTests",
-            dependencies: ["AttestationValidator"]
+            name: "AttestationValidationTests",
+            dependencies: ["AttestationValidation"]
         )
     ]
 )

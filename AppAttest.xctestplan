@@ -14,30 +14,23 @@
   "testTargets" : [
     {
       "target" : {
-        "containerPath" : "container:AppAttestDemo.xcodeproj",
-        "identifier" : "A779B9522CC6EDFE008128F4",
-        "name" : "AppAttestDemoTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:AppAttest",
-        "identifier" : "AttestationDecoderTests",
-        "name" : "AttestationDecoderTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:AppAttest",
-        "identifier" : "AttestationValidatorTests",
-        "name" : "AttestationValidatorTests"
-      }
-    },
-    {
-      "target" : {
         "containerPath" : "container:AppAttest",
         "identifier" : "AppAttestTests",
         "name" : "AppAttestTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:AppAttest",
+        "identifier" : "AttestationDecodingTests",
+        "name" : "AttestationDecodingTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:AppAttest",
+        "identifier" : "AttestationValidationTests",
+        "name" : "AttestationValidationTests"
       }
     },
     {
@@ -46,6 +39,13 @@
         "containerPath" : "container:Server",
         "identifier" : "ServerTests",
         "name" : "ServerTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:AppAttestDemo.xcodeproj",
+        "identifier" : "A779B9522CC6EDFE008128F4",
+        "name" : "AppAttestDemoTests"
       }
     }
   ],

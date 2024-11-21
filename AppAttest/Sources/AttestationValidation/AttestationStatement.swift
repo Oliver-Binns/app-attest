@@ -1,6 +1,7 @@
 import Foundation
+import X509
 
 public protocol AttestationStatement {
-    var certificateChain: [SecCertificate] { get }
+    var certificateChain: [Certificate] { get }
     var receipt: Data { get }
 }

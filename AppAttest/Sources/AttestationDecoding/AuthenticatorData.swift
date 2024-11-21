@@ -26,16 +26,25 @@ public struct AuthenticatorData: RawRepresentable {
         Int(data: rawValue[33..<37])
     }
 
-    public var environment: Environment? {
+    public var isProduction: Bool {
         Environment(bytes: rawValue[37..<53])
+            == .production
     }
 
     var credentialIDLength: Int {
         Int(data: rawValue[53..<55])
     }
 
-    var credentialID: String {
+    public var credentialID: String {
         let endIndex = rawValue.index(55, offsetBy: credentialIDLength)
         return rawValue[55..<endIndex].base64EncodedString()
     }
 }
+
+extension AuthenticatorData: Decodable {
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.rawValue = try container.decode(Data.self)
+    }
+}
+extension AuthenticatorData: Sendable { }

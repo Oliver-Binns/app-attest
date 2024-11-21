@@ -16,6 +16,9 @@ final class IssuedChallenge: Model, @unchecked Sendable {
     @Field(key: "challenge")
     var challenge: Data
 
+    @Timestamp(key: "created_at", on: .create)
+    var createdAt: Date?
+
     init() { }
 
     init(id: UUID? = nil, keyID: String) {

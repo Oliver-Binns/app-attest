@@ -5,21 +5,19 @@ import X509
 extension Array where Element == Certificate {
     static var valid: [Certificate] {
         get throws {
-            try [SecCertificate.leaf, SecCertificate.intermediate]
-                .map(Certificate.init)
+            try [.leaf, .intermediate]
         }
     }
 
     static var expired: [Certificate] {
         get throws {
-            try [SecCertificate.leafExpired, SecCertificate.intermediate]
-                .map(Certificate.init)
+            try [.leafExpired, .intermediate]
         }
     }
 }
 
-extension SecCertificate {
-    static var leaf: SecCertificate {
+extension Certificate {
+    static var leaf: Certificate {
         get throws {
             try create(base64Encoded: """
             MIIDXzCCAuWgAwIBAgIGAZMVyZSFMAoGCCqGSM49BAMCME8xIzAhBgNVBAMMGkFwcGxlIEF
@@ -43,7 +41,7 @@ extension SecCertificate {
         }
     }
 
-    static var intermediate: SecCertificate {
+    static var intermediate: Certificate {
         get throws {
             try create(base64Encoded: """
             MIICQzCCAcigAwIBAgIQCbrF4bxAGtnUU5W8OBoIVDAKBggqhkjOPQQDAzBSMSYwJAYDVQQ
@@ -61,7 +59,7 @@ extension SecCertificate {
         }
     }
 
-    static var leafExpired: SecCertificate {
+    static var leafExpired: Certificate {
         get throws {
             try create(base64Encoded: """
             MIIDsjCCAzmgAwIBAgIGAY7x/U1KMAoGCCqGSM49BAMCME8xIzAhBgNVBAMMGkFwcGxlIEF
@@ -86,13 +84,13 @@ extension SecCertificate {
         }
     }
 
-    fileprivate static func create(base64Encoded: String) throws -> SecCertificate {
+    fileprivate static func create(base64Encoded: String) throws -> Certificate {
         let base64Certificate = try #require(
             base64Encoded
                 .filter { !$0.isWhitespace }
                 .data(using: .utf8)
         )
         let data = try #require(Data(base64Encoded: base64Certificate))
-        return try #require(SecCertificateCreateWithData(nil, data as CFData))
+        return try Certificate(#require(SecCertificateCreateWithData(nil, data as CFData)))
     }
 }

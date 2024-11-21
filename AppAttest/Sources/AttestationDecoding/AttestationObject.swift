@@ -28,3 +28,5 @@ extension AttestationObject: Decodable {
         case statement = "attStmt"
     }
 }
+
+extension AttestationObject: Sendable { }

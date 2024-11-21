@@ -1,5 +1,5 @@
-import AttestationDecoder
-import AttestationValidator
+import AttestationDecoding
+import AttestationValidation
 import Vapor
 
 /// A middleware that enforces requests must provide an Attestation Object from Apple's DeviceCheck framework.
