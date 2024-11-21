@@ -11,6 +11,26 @@ This sample code accompanies a talk about the Device Check framework which will 
 - Implementation of App Attest (this repository)
 - Draft Industry Standards: [OAuth 2.0 Attestation-Based Client Authentication](https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-01.html)
 
+## Progress
+
+This implementation currently covers:
+
+- [x] Generating an App Attest key in Secure Enclave | App
+- [x] Serving a challenge from server to app | Server
+- [x] Attesting a key for the given challenge | App
+- [ ] Submitting the Attestation Object to the server | App
+- [ ] Receiving the Attestation Object from the app | Server
+- [x] Decoding the Attestation Object for validation | Server
+- [x] Validing the Attestation Object | Server
+- [ ] Acquiring fraud metrics from Apple using the receipt | Server
+- [ ] Storing Attestation Key for future assertions | Server
+- [ ] Generating assertion objects for authentication | App
+- [ ] Submitting the Assertion Object to the server | App
+- [ ] Receiving the Assertion Object from the app | Server
+- [ ] Decoding the Assertion Object for validation | Server
+- [ ] Validating the Assertion Object | Server
+- [ ] Make `AttestationDecoding` & `AttestationValidation` targets available as a Swift Package
+
 ## Requirements
 
 - iOS 14.0+
@@ -38,6 +58,8 @@ Please ensure that you have enabled the Git hooks, so that you don't get caught 
 ```
 git config core.hooksPath hooks
 ```
+
+The progress section above covers some future enhancements that you could contribute.
 
 ## Additional Resources
 
