@@ -4,12 +4,14 @@ Ensure that requests your server receives come from legitimate instances of your
 
 ## About
 
-This sample code accompanies a talk about the Device Check framework which will cover:
+This sample code accompanies a talk about the Device Check framework which covered:
 
 - Features of the DeviceCheck framework
 - Basics of Asymmetric Cryptography
 - Implementation of App Attest (this repository)
 - Draft Industry Standards: [OAuth 2.0 Attestation-Based Client Authentication](https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-01.html)
+
+The talk was given at NSLondon on 21st November, 2024 at Apple Battersea, you can find the [slides from the talk here](https://drive.google.com/file/d/1Bx-3Ts1zYVSgcdLraWfK6gt_nwhoNHWb/view?usp=share_link).
 
 ## Progress
 
