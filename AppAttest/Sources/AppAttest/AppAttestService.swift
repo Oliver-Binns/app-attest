@@ -33,4 +33,12 @@ public final class AppAttestService: AppAttestProvider {
             clientDataHash: clientDataHash
         )
     }
+
+    public func fetchAssertion(keyID: String, challenge: Data) async throws -> Data {
+        let clientDataHash = Data(SHA256.hash(data: challenge))
+        return try await attestationProvider.generateAssertion(
+            keyID,
+            clientDataHash: clientDataHash
+        )
+    }
 }

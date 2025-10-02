@@ -7,6 +7,8 @@ final class MockAttestationProvider: AttestationProvider {
     private(set) var didGenerateKey: Bool = false
     private(set) var didAttestKey: Bool = false
     private(set) var challengeUsedForAttest: Data?
+    private(set) var didGenerateAssertion: Bool = false
+    private(set) var challengeUsedForAssertion: Data?
 
     var isSupported: Bool = true
     var generateKeyError: Error?
@@ -31,5 +33,17 @@ final class MockAttestationProvider: AttestationProvider {
         #expect(keyID == self.keyID)
 
         return Data("attestation_object".utf8)
+    }
+
+    func generateAssertion(
+        _ keyID: String,
+        clientDataHash: Data
+    ) async throws -> Data {
+        didGenerateAssertion = true
+        challengeUsedForAssertion = clientDataHash
+
+        #expect(keyID == self.keyID)
+
+        return Data("assertion_object".utf8)
     }
 }
