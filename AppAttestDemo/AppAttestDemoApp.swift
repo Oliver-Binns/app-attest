@@ -3,17 +3,14 @@ import SwiftUI
 
 @main
 struct AppAttestDemoApp: App {
-    let appAttestProvider: AppAttestProvider = AppAttestService(
-        // challengeProvider: LocalChallengeProvider()
-        challengeProvider: RemoteChallengeProvider()
-    )
+    let attestationManager = AttestationManager()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .task {
                     do {
-                        _ = try await appAttestProvider.fetchAttestation()
+                        try await attestationManager.submitAttestation()
                     } catch {
                         print("error: \(error.localizedDescription)")
                     }

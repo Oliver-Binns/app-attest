@@ -10,8 +10,7 @@ struct AppAttestServiceTests {
 
     init() {
         sut = AppAttestService(
-            attestationProvider: attestationProvider,
-            challengeProvider: challengeProvider
+            attestationProvider: attestationProvider
         )
     }
 
@@ -20,7 +19,7 @@ struct AppAttestServiceTests {
         attestationProvider.isSupported = false
 
         await #expect(throws: AppAttestServiceError.unsupportedDevice) {
-            try await sut.fetchAttestation()
+            try await sut.fetchAttestation(challengeProvider: challengeProvider)
         }
     }
 
@@ -28,7 +27,7 @@ struct AppAttestServiceTests {
     func supportedDeviceGeneratesKey() async throws {
         attestationProvider.isSupported = true
 
-        _ = try await sut.fetchAttestation()
+        _ = try await sut.fetchAttestation(challengeProvider: challengeProvider)
         #expect(attestationProvider.didGenerateKey)
     }
 
@@ -38,20 +37,22 @@ struct AppAttestServiceTests {
         attestationProvider.generateKeyError = error
 
         await #expect(throws: error) {
-            try await sut.fetchAttestation()
+            try await sut.fetchAttestation(challengeProvider: challengeProvider)
         }
     }
 
     @Test("Fetch attestation requests challenge")
     func fetchAttestationRequestsChallenge() async throws {
-        _ = try await sut.fetchAttestation()
+        _ = try await sut.fetchAttestation(challengeProvider: challengeProvider)
 
         #expect(challengeProvider.didRequestChallenge)
     }
 
     @Test("Key is attested with specified challenge (hashed) and key")
     func fetchAttestationAttestsKey() async throws {
-        let attestationObject = try await sut.fetchAttestation()
+        let attestationObject = try await sut.fetchAttestation(
+            challengeProvider: challengeProvider
+        )
 
         #expect(attestationProvider.didAttestKey)
 

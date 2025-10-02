@@ -1,11 +1,15 @@
 import AttestationDecoding
 import AttestationValidation
+import Foundation
 
 protocol AttestationRequestValidator: Sendable {
-    func validate(_ request: AttestationRequest) async throws
+    func validate(
+        _ request: AttestationRequest,
+        against challenge: Data
+    ) async throws
 }
 
-actor AppAttestRequestValidator: Sendable, AttestationRequestValidator {
+actor AppAttestRequestValidator: AttestationRequestValidator {
     let validator: AttestationValidator
     let decoder: AttestationDecoder
 
@@ -25,13 +29,16 @@ actor AppAttestRequestValidator: Sendable, AttestationRequestValidator {
         )
     }
 
-    func validate(_ request: AttestationRequest) async throws {
+    func validate(
+        _ request: AttestationRequest,
+        against challenge: Data,
+    ) async throws {
         // Decode the Attestation Object
         let attestationObject = try decoder
             .decode(data: request.attestation)
         try await validator.validate(
             attestation: attestationObject,
-            challenge: request.challenge,
+            challenge: challenge,
             keyID: request.keyID
         )
     }

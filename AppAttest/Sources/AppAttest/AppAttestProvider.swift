@@ -1,5 +1,5 @@
 import Foundation
 
 public protocol AppAttestProvider {
-    func fetchAttestation() async throws -> Data
+    func fetchAttestation(challengeProvider: ChallengeProvider) async throws -> Data
 }

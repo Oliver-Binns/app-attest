@@ -18,8 +18,8 @@ This implementation currently covers:
 - [x] Generating an App Attest key in Secure Enclave | App
 - [x] Serving a challenge from server to app | Server
 - [x] Attesting a key for the given challenge | App
-- [ ] Submitting the Attestation Object to the server | App
-- [ ] Receiving the Attestation Object from the app | Server
+- [x] Submitting the Attestation Object to the server | App
+- [x] Receiving the Attestation Object from the app | Server
 - [x] Decoding the Attestation Object for validation | Server
 - [x] Validing the Attestation Object | Server
 - [ ] Acquiring fraud metrics from Apple using the receipt | Server
