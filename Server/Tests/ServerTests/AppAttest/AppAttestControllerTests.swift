@@ -78,7 +78,6 @@ struct AppAttestControllerTests {
         let challenge = try IssuedChallengeDTO(keyID: keyID)
         let request = AttestationRequest(
             keyID: keyID,
-            challenge: challenge.challenge,
             attestation: Data()
         )
 
@@ -104,7 +103,6 @@ struct AppAttestControllerTests {
 
         let request = AttestationRequest(
             keyID: keyID,
-            challenge: challenge,
             attestation: Data()
         )
 
@@ -132,7 +130,6 @@ struct AppAttestControllerTests {
 
         let request = try AttestationRequest(
             keyID: keyID,
-            challenge: challenge,
             attestation: fromFile()
         )
 

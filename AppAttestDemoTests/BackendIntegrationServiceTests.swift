@@ -3,13 +3,13 @@ import Foundation
 import Testing
 
 @Suite(.serialized)
-struct RemoteChallengeProviderTests {
-    private let sut = RemoteChallengeProvider(
+final class BackendIntegrationServiceTests {
+    private let sut = BackendIntegrationService(
         session: URLSession(configuration: .mock)
     )
 
     @Test("Makes correctly formatted request to remote endpoint")
-    func makeRequest() async throws {
+    func makeRequestToFetchChallenge() async throws {
         let url = try #require(URL(string: "http://localhost:8080/challenge"))
         let keyID = UUID().uuidString
         MockURLProtocol.queueResponse(
@@ -35,8 +35,8 @@ struct RemoteChallengeProviderTests {
         #expect(body == ["keyID": keyID])
     }
 
-    @Test("Decodes response from remote endpoint")
-    func decodeResponse() async throws {
+    @Test("Decodes response from request challenge endpoint")
+    func decodeResponseFromFetchChallenge() async throws {
         let url = try #require(URL(string: "http://localhost:8080/challenge"))
 
         let expectedChallenge = Data(UUID().uuidString.utf8)
@@ -51,6 +51,42 @@ struct RemoteChallengeProviderTests {
 
         let challenge = try await sut.challenge(for: String())
         #expect(expectedChallenge == challenge)
+    }
+
+    @Test("Makes correctly formatted request to submit attestation")
+    func makeRequestToVerifyAttestation() async throws {
+        let url = try #require(URL(string: "http://localhost:8080/verify"))
+        MockURLProtocol.queueResponse(
+            (data: Data(), response: URLResponse()),
+            to: url
+        )
+
+        let keyID = UUID().uuidString
+        let attestation = Data("mock_attestation".utf8)
+
+        _ = try await sut.attest(keyID: keyID, attestation)
+
+        #expect(MockURLProtocol.requests.count == 1)
+
+        let request = try #require(MockURLProtocol.requests.first)
+        #expect(request.url == url)
+        #expect(request.httpMethod == "POST")
+        #expect(request.allHTTPHeaderFields == [
+            "Content-Type": "application/json",
+            "Content-Length": "89"
+        ])
+
+        let body = try #require(
+            request.bodyStreamAsJSON() as? [String: String]
+        )
+        #expect(body == [
+            "keyID": keyID,
+            "attestation": attestation.base64EncodedString()
+        ])
+    }
+
+    deinit {
+        MockURLProtocol.clear()
     }
 }
 

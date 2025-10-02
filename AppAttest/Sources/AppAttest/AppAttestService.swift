@@ -7,30 +7,25 @@ enum AppAttestServiceError: Error {
 
 public final class AppAttestService: AppAttestProvider {
     let attestationProvider: AttestationProvider
-    let challengeProvider: ChallengeProvider
 
     init(
-        attestationProvider: AttestationProvider,
-        challengeProvider: ChallengeProvider
+        attestationProvider: AttestationProvider
     ) {
         self.attestationProvider = attestationProvider
-        self.challengeProvider = challengeProvider
     }
 
-    public convenience init(challengeProvider: ChallengeProvider) {
+    public convenience init() {
         self.init(
             attestationProvider: DCAppAttestService.shared,
-            challengeProvider: challengeProvider
         )
     }
 
-    public func fetchAttestation() async throws -> Data {
+    public func fetchAttestation(challengeProvider: ChallengeProvider) async throws -> Data {
         guard attestationProvider.isSupported else {
             throw AppAttestServiceError.unsupportedDevice
         }
         let keyID = try await attestationProvider.generateKey()
-        let challenge = try await challengeProvider
-            .challenge(for: keyID)
+        let challenge = try await challengeProvider.challenge(for: keyID)
         let clientDataHash = Data(SHA256.hash(data: challenge))
 
         return try await attestationProvider.attestKey(

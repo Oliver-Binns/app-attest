@@ -7,7 +7,6 @@ struct ChallengeRequest: Content {
 
 struct AttestationRequest: Content {
     let keyID: String
-    let challenge: Data
     let attestation: Data
 }
 
@@ -43,7 +42,6 @@ struct AppAttestController: RouteCollection {
         // verify this against challenge in database
         let challenges = try await req.db.query(IssuedChallenge.self)
             .filter(\.$keyID, .equal, request.keyID)
-            .filter(\.$challenge, .equal, request.challenge)
             .all()
 
         // discard challenge it cannot be used again
@@ -51,8 +49,9 @@ struct AppAttestController: RouteCollection {
 
         // Ensure challenge is unique and was created within the last two minutes
         guard challenges.count == 1,
+              let challenge = challenges.first,
               let twoMinutesAgo = Calendar.current.date(byAdding: .minute, value: -2, to: .now),
-              let creationDate = challenges[0].createdAt,
+              let creationDate = challenge.createdAt,
               creationDate > twoMinutesAgo
         else {
             return .unauthorized
@@ -60,7 +59,9 @@ struct AppAttestController: RouteCollection {
 
         // Validate the Attestation Object
         do {
-            try await validator.validate(request)
+            try await validator.validate(
+                request, against: challenge.challenge
+            )
         } catch {
             return .unauthorized
         }
