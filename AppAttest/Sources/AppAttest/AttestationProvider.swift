@@ -9,6 +9,11 @@ protocol AttestationProvider {
         _: String,
         clientDataHash: Data
     ) async throws -> Data
+
+    func generateAssertion(
+        _: String,
+        clientDataHash: Data
+    ) async throws -> Data
 }
 
 extension DCAppAttestService: AttestationProvider { }

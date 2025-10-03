@@ -29,4 +29,15 @@ final class AttestationManager: ChallengeProvider {
         }
         try await backendService.attest(keyID: keyID, attestation)
     }
+
+    func getAssertion() async throws -> Data {
+        guard let keyID else {
+            fatalError("Key must ready have been attested before it can be asserted")
+        }
+
+        return try await appAttestProvider.fetchAssertion(
+            keyID: keyID,
+            challenge: challenge(for: keyID)
+        )
+    }
 }
