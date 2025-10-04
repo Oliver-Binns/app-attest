@@ -16,7 +16,15 @@ actor ClientAttestationMiddleware: AsyncMiddleware {
 
     func respond(to request: Request,
                  chainingTo next: any AsyncResponder) async throws -> Response {
-        try await next.respond(to: request)
-    }
+        // Bearer token should be an app assertion
+        // This should be validated or the request is rejected
+        guard let assertion = request.headers.bearerAuthorization?.token
+            // TODO: validate the assertion:
+            // validator.validate(assertion: assertion, challenge: challenge, keyID: keyID)
+        else {
+            throw Abort(.unauthorized)
+        }
 
+        return try await next.respond(to: request)
+    }
 }

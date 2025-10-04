@@ -20,7 +20,7 @@ struct AppAttestController: RouteCollection {
 
     @Sendable
     func challenge(req: Request) async throws -> IssuedChallengeDTO {
-        // Extract key
+        // Extract key ID
         let keyID = try req.content
             .decode(ChallengeRequest.self)
             .keyID
