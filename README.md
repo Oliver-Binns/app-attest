@@ -26,8 +26,8 @@ This implementation currently covers:
 - [x] Validing the Attestation Object | Server
 - [ ] Acquiring fraud metrics from Apple using the receipt | Server
 - [ ] Storing Attestation Key for future assertions | Server
-- [ ] Generating assertion objects for authentication | App
-- [ ] Submitting the Assertion Object to the server | App
+- [x] Generating assertion objects for authentication | App
+- [x] Submitting the Assertion Object to the server | App
 - [ ] Receiving the Assertion Object from the app | Server
 - [ ] Decoding the Assertion Object for validation | Server
 - [ ] Validating the Assertion Object | Server
