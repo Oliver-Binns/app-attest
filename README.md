@@ -29,7 +29,7 @@ This implementation currently covers:
 - [x] Generating assertion objects for authentication | App
 - [x] Submitting the Assertion Object to the server | App
 - [ ] Receiving the Assertion Object from the app | Server
-- [ ] Decoding the Assertion Object for validation | Server
+- [x] Decoding the Assertion Object for validation | Server
 - [ ] Validating the Assertion Object | Server
 - [ ] Make `AttestationDecoding` & `AttestationValidation` targets available as a Swift Package
 
