@@ -1,5 +1,5 @@
 import AppAttest
-import CryptoKit
+import Crypto
 import Foundation
 
 extension BackendIntegrationService: ChallengeProvider {

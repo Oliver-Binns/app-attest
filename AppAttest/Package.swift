@@ -29,10 +29,17 @@ let package = Package(
         .package(
             url: "https://github.com/apple/swift-certificates",
             exact: "1.6.1"
+        ),
+        .package(
+            url: "https://github.com/apple/swift-crypto.git",
+            exact: "3.15.1"
         )
     ],
     targets: [
-        .target(name: "AppAttest"),
+        .target(
+            name: "AppAttest",
+            dependencies: [.product(name: "Crypto", package: "swift-crypto")]
+        ),
         .testTarget(
             name: "AppAttestTests",
             dependencies: ["AppAttest"]
@@ -41,20 +48,25 @@ let package = Package(
         .target(
             name: "AttestationDecoding",
             dependencies: [
+                .product(name: "Crypto", package: "swift-crypto"),
                 .product(name: "SwiftCBOR", package: "SwiftCBOR"),
                 .product(name: "X509", package: "swift-certificates")
             ]
         ),
         .testTarget(
             name: "AttestationDecodingTests",
-            dependencies: ["AttestationDecoding"],
+            dependencies: [
+                "AttestationDecoding",
+                .product(name: "Crypto", package: "swift-crypto")
+            ],
             resources: [.process("Resources")]
         ),
 
         .target(
             name: "AttestationValidation",
             dependencies: [
-                .product(name: "X509", package: "swift-certificates")
+                .product(name: "X509", package: "swift-certificates"),
+                .product(name: "Crypto", package: "swift-crypto")
             ],
             resources: [.process("Resources")]
         ),
