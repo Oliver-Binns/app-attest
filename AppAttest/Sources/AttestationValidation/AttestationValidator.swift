@@ -49,7 +49,7 @@ public struct AttestationValidator {
         //    Append that hash to the end of the authenticator data
         let compositeData = compose(
             authenticatorData: attestation.authenticatorData.rawValue,
-            withChallenge: challenge
+            withClientData: challenge
         )
 
         // 3. Generate a new SHA256 hash of the composite item to create nonce.
@@ -112,6 +112,38 @@ public struct AttestationValidator {
         }
     }
 
+    /// Validate this AssertionObject using the steps given in the Device Check documentation:
+    /// https://developer.apple.com/documentation/devicecheck/validating-apps-that-connect-to-your-server#Verify-the-assertion
+    public func validate(
+        assertion: any AssertionObject,
+        clientData: Data,
+        keyID: String
+    ) async throws {
+        // 1. Compute clientDataHash as the SHA256 hash of clientData.
+        // 2. Concatenate authenticatorData and clientDataHash and apply a SHA256 hash over the
+        //    result to form nonce.
+        let nonce = compose(
+            authenticatorData: assertion.authenticatorData.rawValue,
+            withClientData: clientData
+        )
+
+        // 3. Use the public key that you store from the attestation object to verify that the
+        //    assertion’s signature is valid for nonce.
+
+        // 4. Compute the SHA256 hash of the client’s App ID, and verify that it matches the
+        //    RP ID in the authenticator data.
+        guard assertion.authenticatorData.relyingPartyIDHash == appIDHash else {
+            throw AttestationValidationError.wrongRelyingParty
+        }
+
+        // 5. Verify that the authenticator data’s counter value is greater than the value from
+        //    the previous assertion, or greater than 0 on the first assertion.
+
+        // 6. Verify that the embedded challenge in the client data matches the earlier challenge
+        //    to the client.
+
+    }
+
     func validateCertificateChain(_ certificateChain: [Certificate]) async throws {
         var validator = try Verifier(rootCertificates: .appAttest) {
             RFC5280Policy(validationTime: validationDate)
@@ -129,12 +161,17 @@ public struct AttestationValidator {
         }
     }
 
+    /// Create the nonce value by appending a hash of the client data to the authenticator data
+    ///
+    /// - Parameters:
+    ///     - authenticatorData: defined in Web Authn standard: https://www.w3.org/TR/webauthn/#sctn-authenticator-data
+    ///     - clientData: challenge for the request, can optionally also include request to protect against tampering
     func compose(
         authenticatorData: Data,
-        withChallenge challenge: Data
+        withClientData clientData: Data
     ) -> Data {
-        let challengeHash = Data(SHA256.hash(data: challenge))
-        return authenticatorData + challengeHash
+        let clientDataHash = Data(SHA256.hash(data: clientData))
+        return authenticatorData + clientDataHash
     }
 
     func calculateNonce(composite: Data) -> Data {

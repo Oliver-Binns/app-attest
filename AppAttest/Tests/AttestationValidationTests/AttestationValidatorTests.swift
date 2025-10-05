@@ -90,7 +90,7 @@ struct AttestationValidatorTests {
 
         let clientDataHash = sut.compose(
             authenticatorData: authenticatorData,
-            withChallenge: challenge
+            withClientData: challenge
         )
 
         let expectedHash = """
