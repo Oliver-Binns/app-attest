@@ -16,6 +16,8 @@ let package = Package(
         // 🔵 Non-blocking, event-driven networking for Swift. Used for custom executors
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.65.0"),
 
+        .package(url: "https://github.com/apple/swift-crypto.git", exact: "3.15.1"),
+
         // App Attest requirements:
         .package(path: "../AppAttest")
     ],
@@ -28,6 +30,7 @@ let package = Package(
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "NIOCore", package: "swift-nio"),
                 .product(name: "NIOPosix", package: "swift-nio"),
+                .product(name: "Crypto", package: "swift-crypto"),
                 .product(name: "AttestServer", package: "AppAttest")
             ],
             swiftSettings: swiftSettings

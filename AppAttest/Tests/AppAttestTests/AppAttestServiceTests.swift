@@ -1,5 +1,5 @@
 @testable import AppAttest
-import CryptoKit
+import Crypto
 import DeviceCheck
 import Testing
 

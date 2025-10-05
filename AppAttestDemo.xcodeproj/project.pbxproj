@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A75218752E92C2D700ABF476 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = A75218742E92C2D700ABF476 /* Crypto */; };
 		A75E23102CC6F59800B03953 /* AppAttest in Frameworks */ = {isa = PBXBuildFile; productRef = A75E230F2CC6F59800B03953 /* AppAttest */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A75E23102CC6F59800B03953 /* AppAttest in Frameworks */,
+				A75218752E92C2D700ABF476 /* Crypto in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,6 +128,7 @@
 			name = AppAttestDemo;
 			packageProductDependencies = (
 				A75E230F2CC6F59800B03953 /* AppAttest */,
+				A75218742E92C2D700ABF476 /* Crypto */,
 			);
 			productName = "App Attest";
 			productReference = A779B9422CC6EDFC008128F4 /* AppAttestDemo.app */;
@@ -210,6 +213,7 @@
 			mainGroup = A779B9392CC6EDFC008128F4;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				A75218732E92C2D700ABF476 /* XCRemoteSwiftPackageReference "swift-crypto" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A779B9432CC6EDFC008128F4 /* Products */;
@@ -622,7 +626,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		A75218732E92C2D700ABF476 /* XCRemoteSwiftPackageReference "swift-crypto" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-crypto.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.15.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		A75218742E92C2D700ABF476 /* Crypto */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A75218732E92C2D700ABF476 /* XCRemoteSwiftPackageReference "swift-crypto" */;
+			productName = Crypto;
+		};
 		A75E230F2CC6F59800B03953 /* AppAttest */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppAttest;

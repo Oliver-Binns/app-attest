@@ -1,4 +1,4 @@
-import CryptoKit
+import Crypto
 import Foundation
 
 /// AuthenticatorData object as defined in the WebAuthn specification
