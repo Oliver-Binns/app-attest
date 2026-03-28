@@ -27,6 +27,17 @@ final class AttestationManager: ChallengeProvider {
         guard let keyID else {
             fatalError("Attestation must have requested a challenge")
         }
+
+        let provider = LocalChallengeProvider()
+        let challenge = try await provider.challenge(for: keyID)
+        let assertion = try await appAttestProvider.fetchAssertion(
+            keyID: keyID,
+            challenge: challenge
+        )
+
+        print("challenge: \(challenge.base64EncodedString())")
+        print("assertion: \(assertion.base64EncodedString())")
+
         try await backendService.attest(keyID: keyID, attestation)
     }
 
